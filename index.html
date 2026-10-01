@@ -124,7 +124,7 @@ input,select,textarea{
 }
 
 .card h3{
-  margin:10px 38px 5px 0;
+  margin:10px 52px 5px 0;
   font-size:18px
 }
 
@@ -149,12 +149,19 @@ input,select,textarea{
 
 .star{
   position:absolute;
-  top:16px;
+  bottom:16px;
   right:16px;
+  z-index:2;
   border:0;
-  background:none;
+  background:#f4f6fa;
+  border-radius:50%;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
-  font-size:25px;
+  font-size:22px;
   line-height:1;
   color:#c8ced8;
   padding:0
@@ -183,21 +190,6 @@ input,select,textarea{
   margin-top:11px
 }
 
-.card-section-title{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  font-weight:800;
-  color:#667085;
-  margin-bottom:4px
-}
-
-.card-section-text{
-  font-size:13px;
-  line-height:1.4;
-  color:#344054
-}
-
 .opening{
   display:inline-flex;
   align-items:center;
@@ -214,6 +206,7 @@ input,select,textarea{
   display:flex;
   gap:8px;
   margin-top:16px;
+  padding-right:46px;
   flex-wrap:wrap
 }
 
@@ -349,6 +342,43 @@ input,select,textarea{
   margin:18px 0
 }
 
+
+/* SCHEDA DI LETTURA */
+.read-view{display:block}
+.read-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.read-item{
+  padding:14px 10px 14px 0;
+  border-bottom:1px solid var(--line);
+}
+.read-item.full{grid-column:1/-1}
+.read-label{
+  display:block;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:800;
+  color:#667085;
+  margin-bottom:5px;
+}
+.read-value{
+  font-size:14px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+.read-empty{color:#98a2b3;font-style:italic}
+.mode-actions{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.mode-actions .btn{flex:1}
+
 @media(max-width:650px){
   .formgrid{
     grid-template-columns:1fr
@@ -406,161 +436,111 @@ input,select,textarea{
 
 
 <!-- MODALE -->
-
 <div class="modal" id="modal">
+  <div class="box">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle">Nuovo bando</h2>
 
-<div class="box">
+    <!-- VISTA LETTURA -->
+    <div id="readView" class="read-view" style="display:none">
+      <div id="readContent"></div>
+      <div class="mode-actions">
+        <button class="btn light" onclick="closeModal()">Chiudi</button>
+        <button class="btn" onclick="startEdit()">✎ Modifica scheda</button>
+        <button class="btn danger" id="readDeleteBtn" onclick="deleteBando()">Elimina</button>
+      </div>
+    </div>
 
-<button class="close" onclick="closeModal()">×</button>
+    <!-- VISTA MODIFICA / NUOVO -->
+    <div id="editView" style="display:none">
+      <div class="formgrid">
+        <div class="field">
+          <label>Nome del bando</label>
+          <input id="fNome">
+        </div>
 
-<h2 id="modalTitle">Nuovo bando</h2>
+        <div class="field">
+          <label>Ente</label>
+          <input id="fEnte">
+        </div>
 
-<div class="formgrid">
+        <div class="field">
+          <label>Categoria</label>
+          <input id="fCat" list="categoryList">
+          <datalist id="categoryList"></datalist>
+        </div>
 
-  <div class="field">
-    <label>Nome del bando</label>
-    <input id="fNome">
+        <div class="field">
+          <label>Stato</label>
+          <select id="fStato">
+            <option>Attivi</option>
+            <option>In apertura</option>
+            <option>Chiusi</option>
+            <option>Da verificare</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Modalità di apertura</label>
+          <select id="fApertura">
+            <option value="">Non specificato</option>
+            <option value="A sportello">A sportello</option>
+            <option value="A graduatoria">A graduatoria</option>
+            <option value="Click Day">Click Day</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Scadenza</label>
+          <input id="fScad" type="date">
+        </div>
+
+        <div class="field full">
+          <label>Link al testo ufficiale</label>
+          <input id="fUrl" type="url" placeholder="https://…">
+        </div>
+
+        <div class="section-title">Scheda di sintesi</div>
+
+        <div class="field full">
+          <label>Breve descrizione</label>
+          <textarea id="fDescrizione"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Soggetti beneficiari</label>
+          <textarea id="fBeneficiari"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Entità e forma agevolazione</label>
+          <textarea id="fAgevolazione"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Spese ammissibili</label>
+          <textarea id="fSpese"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Note operative personali</label>
+          <textarea id="fNote"></textarea>
+        </div>
+      </div>
+
+      <div class="notice">
+        I dati vengono salvati nel <b>browser di questo dispositivo</b> tramite memoria locale.
+      </div>
+
+      <div class="footer-actions">
+        <button class="btn light" onclick="cancelEdit()">Annulla</button>
+        <button class="btn" onclick="saveBando()">Salva</button>
+        <button class="btn danger" id="deleteBtn" style="display:none" onclick="deleteBando()">Elimina</button>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <label>Ente</label>
-    <input id="fEnte">
-  </div>
-
-  <div class="field">
-    <label>Categoria</label>
-    <input id="fCat">
-  </div>
-
-  <div class="field">
-    <label>Stato</label>
-
-    <select id="fStato">
-      <option>Attivi</option>
-      <option>In apertura</option>
-      <option>Chiusi</option>
-      <option>Da verificare</option>
-    </select>
-
-  </div>
-
-  <div class="field">
-    <label>Modalità di apertura</label>
-
-    <select id="fApertura">
-      <option value="">Non specificato</option>
-      <option value="A sportello">A sportello</option>
-      <option value="A graduatoria">A graduatoria</option>
-    </select>
-
-  </div>
-
-  <div class="field">
-    <label>Scadenza</label>
-    <input id="fScad" type="date">
-  </div>
-
-  <div class="field full">
-    <label>Link al testo ufficiale</label>
-    <input
-      id="fUrl"
-      type="url"
-      placeholder="https://…"
-    >
-  </div>
-
-
-  <!-- SEZIONE SCHEDA -->
-
-  <div class="section-title">
-    Scheda di sintesi
-  </div>
-
-  <div class="field full">
-    <label>Breve descrizione</label>
-
-    <textarea
-      id="fDescrizione"
-      placeholder="Descrivi in breve cosa finanzia il bando e qual è il suo obiettivo."
-    ></textarea>
-
-  </div>
-
-  <div class="field full">
-    <label>Soggetti beneficiari</label>
-
-    <textarea
-      id="fBeneficiari"
-      placeholder="Es. PMI, microimprese, startup, professionisti, imprese femminili…"
-    ></textarea>
-
-  </div>
-
-  <div class="field full">
-    <label>Entità e forma agevolazione</label>
-
-    <textarea
-      id="fAgevolazione"
-      placeholder="Es. contributo a fondo perduto 50%, finanziamento agevolato, credito d'imposta…"
-    ></textarea>
-
-  </div>
-
-  <div class="field full">
-    <label>Spese ammissibili</label>
-
-    <textarea
-      id="fSpese"
-      placeholder="Indica le principali spese/investimenti ammessi."
-    ></textarea>
-
-  </div>
-
-
-  <!-- NOTE -->
-
-  <div class="field full">
-    <label>Note operative personali</label>
-
-    <textarea
-      id="fNote"
-      placeholder="Controlli, documenti da chiedere, avvertenze, cose da verificare…"
-    ></textarea>
-
-  </div>
-
 </div>
 
-
-<div class="notice">
-  I dati vengono salvati nel <b>browser di questo dispositivo</b>
-  tramite memoria locale. Non serve un server.
-</div>
-
-
-<div class="footer-actions">
-
-  <button class="btn light" onclick="closeModal()">
-    Annulla
-  </button>
-
-  <button class="btn" onclick="saveBando()">
-    Salva
-  </button>
-
-  <button
-    class="btn danger"
-    id="deleteBtn"
-    style="display:none"
-    onclick="deleteBando()"
-  >
-    Elimina
-  </button>
-
-</div>
-
-</div>
-</div>
 
 
 <script>
@@ -815,6 +795,112 @@ preferito:false
 
 
 /* =========================
+   COMPILAZIONE AUTOMATICA
+   =========================
+   Riempie solo i campi vuoti dei bandi iniziali.
+   I dati inseriti manualmente dall'utente non vengono sovrascritti.
+*/
+
+const autoData = {
+  "Nuova Sabatini":{
+    beneficiari:"Micro, piccole e medie imprese (PMI) che effettuano investimenti ammissibili.",
+    agevolazione:"Contributo del MIMIT rapportato agli interessi su un finanziamento/leasing destinato all'investimento. Intensità e modalità dipendono dalla normativa e dalle risorse disponibili.",
+    spese:"Macchinari, impianti, beni strumentali, attrezzature, hardware, software e tecnologie digitali nuovi, secondo i requisiti della misura.",
+    note:"Verificare sempre beni, periodo di realizzazione, modalità di finanziamento e requisiti previsti dalla disciplina vigente."
+  },
+  "Smart&Start Italia":{
+    beneficiari:"Startup innovative costituite da poco tempo e persone fisiche che intendono costituire una startup innovativa, nei casi previsti.",
+    agevolazione:"Finanziamento agevolato per sostenere programmi di investimento e costi di avvio; condizioni e intensità variano in base ai requisiti del progetto.",
+    spese:"Investimenti tecnologici, personale, servizi, costi di funzionamento e altre spese previste dal programma ammissibile.",
+    note:"Verificare requisiti della startup innovativa, dimensione del progetto e spese ammissibili dell'avviso vigente."
+  },
+  "ON – Oltre Nuove imprese a tasso zero":{
+    beneficiari:"Micro e piccole imprese costituite da giovani o donne secondo i requisiti della misura; in determinati casi anche persone fisiche che intendono costituire una nuova impresa.",
+    agevolazione:"Finanziamento agevolato a tasso zero, eventualmente combinato con una quota di contributo secondo le condizioni previste dalla misura.",
+    spese:"Opere murarie, impianti, macchinari, attrezzature, software, servizi e altre spese di investimento previste dal programma.",
+    note:"Controllare composizione societaria, anzianità dell'impresa e percentuali/limiti applicabili all'ultimo avviso."
+  },
+  "ISI INAIL":{
+    beneficiari:"Imprese, nei limiti e secondo le condizioni previste dai bandi ISI INAIL delle singole annualità.",
+    agevolazione:"Contributo in conto capitale per interventi finalizzati al miglioramento della salute e sicurezza sul lavoro; percentuali e massimali sono definiti dall'avviso annuale.",
+    spese:"Macchinari, attrezzature, bonifica da materiali contenenti amianto e altri interventi ammessi dalle specifiche linee dell'avviso.",
+    note:"Misura normalmente caratterizzata da fasi telematiche e, per alcune linee, procedura Click Day. Verificare annualità e calendario."
+  },
+  "Brevetti+":{
+    beneficiari:"PMI titolari di un brevetto o di una domanda di brevetto che possiedano i requisiti previsti dalla misura.",
+    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica del brevetto; intensità e massimali dipendono dall'avviso vigente.",
+    spese:"Progettazione, ingegnerizzazione, organizzazione, trasferimento tecnologico, marketing e altri servizi specialistici ammissibili."
+  },
+  "Marchi+":{
+    beneficiari:"Micro, piccole e medie imprese titolari di marchi e in possesso dei requisiti previsti dall'avviso.",
+    agevolazione:"Contributo per la tutela e valorizzazione dei marchi sui mercati esteri, secondo percentuali e massimali dell'avviso.",
+    spese:"Servizi specialistici connessi a registrazione, tutela e valorizzazione del marchio nei mercati esteri."
+  },
+  "Disegni+":{
+    beneficiari:"PMI titolari di disegni o modelli registrati, secondo i requisiti dell'avviso.",
+    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica di disegni e modelli.",
+    spese:"Servizi specialistici, progettazione, produzione, comunicazione, marketing e altre attività ammissibili secondo l'avviso."
+  },
+  "Bandi SIMEST":{
+    beneficiari:"Imprese italiane, con requisiti variabili in funzione dello specifico strumento SIMEST.",
+    agevolazione:"Finanziamenti agevolati e, per alcune misure, contributi collegati al progetto di internazionalizzazione.",
+    spese:"Spese per apertura o potenziamento sui mercati esteri, fiere, consulenze, marketing, investimenti e altre categorie previste dal singolo strumento.",
+    note:"La voce comprende più strumenti: aprire la scheda dello specifico intervento e verificare requisiti e spese."
+  },
+  "Voucher Digitali":{
+    beneficiari:"Imprese, generalmente PMI, secondo i requisiti stabiliti dalla Camera di Commercio o dall'ente che pubblica il singolo bando.",
+    agevolazione:"Voucher/contributo per progetti di digitalizzazione; percentuale, massimale e modalità dipendono dal bando territoriale.",
+    spese:"Software, hardware, consulenze, formazione e servizi digitali ammessi dal singolo avviso."
+  },
+  "Voucher Transizione Energetica":{
+    beneficiari:"Imprese, secondo i requisiti del bando territoriale o dell'ente promotore.",
+    agevolazione:"Contributo o voucher per interventi di efficientamento energetico e transizione; intensità e massimali variano per bando.",
+    spese:"Diagnosi energetiche, consulenze, tecnologie efficienti, impianti e altri interventi ammessi dal singolo avviso."
+  },
+  "Fiere":{
+    beneficiari:"Imprese, in particolare PMI, secondo i requisiti del bando regionale, camerale o dell'ente promotore.",
+    agevolazione:"Contributo o voucher per la partecipazione a fiere ed eventi, con intensità e massimali stabiliti dal singolo bando.",
+    spese:"Affitto area espositiva, allestimento, iscrizione, servizi fieristici, trasporto e altre spese ammissibili."
+  },
+  "Formazione Continua":{
+    beneficiari:"Imprese e lavoratori secondo le condizioni previste dagli strumenti regionali di formazione continua.",
+    agevolazione:"Contributo per la realizzazione di percorsi formativi; modalità, massimali e intensità dipendono dall'avviso.",
+    spese:"Costi di formazione, docenza, tutoraggio e altre voci ammesse dal programma regionale."
+  },
+  "Patent Box":{
+    beneficiari:"Imprese che sostengono attività rilevanti di ricerca e sviluppo e possiedono i requisiti fiscali previsti dalla disciplina.",
+    agevolazione:"Maggiorazione ai fini fiscali dei costi di ricerca e sviluppo relativi a determinati beni immateriali, secondo la disciplina vigente.",
+    spese:"Costi fiscalmente rilevanti di ricerca e sviluppo collegati ai beni immateriali agevolabili, nei limiti e con le condizioni previste dalla normativa.",
+    note:"Non è un bando a sportello: verificare disciplina fiscale vigente, documentazione e condizioni di accesso."
+  },
+  "Iperammortamento":{
+    beneficiari:"Imprese che effettuano investimenti agevolabili secondo la normativa fiscale vigente.",
+    agevolazione:"Maggiorazione del costo fiscalmente riconosciuto degli investimenti agevolabili, con aliquote, limiti e condizioni stabiliti dalla disciplina vigente.",
+    spese:"Beni strumentali e tecnologie individuati dalla normativa, con eventuali requisiti tecnici e di interconnessione.",
+    note:"Verificare annualità dell'investimento, classificazione del bene, requisiti tecnici, interconnessione e documentazione necessaria."
+  },
+  "Nuova Impresa – Regione Lombardia":{
+    beneficiari:"Aspiranti imprenditori e nuove imprese lombarde, secondo i requisiti previsti dall'avviso regionale.",
+    agevolazione:"Contributo a sostegno delle spese di avvio e investimento, con intensità e massimali definiti dal bando.",
+    spese:"Acquisto di beni e servizi, consulenze, attrezzature, strumenti digitali e altre spese ammesse dall'avviso."
+  }
+};
+
+function autoFillBandi(){
+  let changed = false;
+  bandi = bandi.map(x => {
+    const d = autoData[x.nome];
+    if(!d) return x;
+    const y = {...x};
+    Object.keys(d).forEach(k => {
+      if(!y[k]) { y[k] = d[k]; changed = true; }
+    });
+    return y;
+  });
+  if(changed) save();
+}
+
+/* =========================
    STATO
 ========================= */
 
@@ -864,11 +950,12 @@ function cats(){
 
 function setup(){
 
+  const allCats = [...new Set([...cats(), 'Click Day'])].sort();
   document.getElementById('cat').innerHTML =
     '<option value="">Tutte le categorie</option>' +
-    cats()
-      .map(x => `<option>${esc(x)}</option>`)
-      .join('');
+    allCats.map(x => `<option>${esc(x)}</option>`).join('');
+  document.getElementById('categoryList').innerHTML =
+    allCats.map(x => `<option value="${esc(x)}"></option>`).join('');
 
   renderTabs();
 
@@ -1008,168 +1095,42 @@ function render(){
 ========================= */
 
 function card(x){
-
   const d = x.scadenza
-    ? new Date(
-        x.scadenza + 'T00:00:00'
-      ).toLocaleDateString('it-IT')
+    ? new Date(x.scadenza + 'T00:00:00').toLocaleDateString('it-IT')
     : 'Non indicata';
 
-
   return `
-
-  <article class="card">
-
-    <button
-      class="star ${x.preferito ? 'active' : ''}"
-      onclick="togglePreferito(${x.i})"
-      title="${x.preferito ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}"
-    >
-      ${x.preferito ? '★' : '☆'}
-    </button>
-
-
-    <span class="pill">
-      ${esc(x.categoria || 'Altro')}
-    </span>
-
-    <span class="pill status">
-      ${esc(x.stato)}
-    </span>
-
-
-    <h3>
-      ${esc(x.nome)}
-    </h3>
-
-
-    <div class="entity">
-      ${esc(x.ente)}
-    </div>
-
-
-    ${
-      x.apertura
-      ?
-      `<div class="opening">
-        ${esc(x.apertura)}
-      </div>`
-      :
-      ''
-    }
-
-
-    <div class="desc">
-      ${esc(
-        x.descrizione ||
-        'Nessuna descrizione inserita.'
-      )}
-    </div>
-
-
-    ${
-      x.beneficiari
-      ?
-      `
-      <div class="card-section">
-        <div class="card-section-title">
-          Soggetti beneficiari
-        </div>
-
-        <div class="card-section-text">
-          ${esc(x.beneficiari)}
-        </div>
-      </div>
-      `
-      :
-      ''
-    }
-
-
-    ${
-      x.agevolazione
-      ?
-      `
-      <div class="card-section">
-        <div class="card-section-title">
-          Entità e forma agevolazione
-        </div>
-
-        <div class="card-section-text">
-          ${esc(x.agevolazione)}
-        </div>
-      </div>
-      `
-      :
-      ''
-    }
-
-
-    ${
-      x.spese
-      ?
-      `
-      <div class="card-section">
-        <div class="card-section-title">
-          Spese ammissibili
-        </div>
-
-        <div class="card-section-text">
-          ${esc(x.spese)}
-        </div>
-      </div>
-      `
-      :
-      ''
-    }
-
-
-    <div class="date">
-      Scadenza:
-      <b>${d}</b>
-    </div>
-
-
-    <div class="actions">
-
-      <button
-        class="btn"
-        onclick="editBando(${x.i})"
-      >
-        Apri scheda
+    <article class="card">
+      <button class="star ${x.preferito ? 'active' : ''}"
+        onclick="togglePreferito(${x.i})"
+        title="${x.preferito ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}">
+        ${x.preferito ? '★' : '☆'}
       </button>
 
+      <span class="pill">${esc(x.categoria || 'Altro')}</span>
+      <span class="pill status">${esc(x.stato || 'Da verificare')}</span>
 
-      ${
-        x.url
-        ?
-        `
-        <a
-          class="btn light"
-          href="${safeUrl(x.url)}"
-          target="_blank"
-          rel="noopener"
-        >
-          Testo ufficiale ↗
-        </a>
-        `
-        :
-        `
-        <button
-          class="btn light"
-          onclick="editBando(${x.i})"
-        >
-          ＋ Inserisci fonte
-        </button>
-        `
-      }
+      <h3>${esc(x.nome)}</h3>
+      <div class="entity">${esc(x.ente || 'Ente non indicato')}</div>
 
-    </div>
+      ${x.apertura ? `<div class="opening">${esc(x.apertura)}</div>` : ''}
 
-  </article>
+      <div class="desc">
+        ${esc(x.descrizione || 'Nessuna descrizione inserita.')}
+      </div>
 
+      <div class="date">Scadenza: <b>${d}</b></div>
+
+      <div class="actions">
+        <button class="btn" onclick="editBando(${x.i})">Apri scheda</button>
+        ${
+          x.url
+          ? `<a class="btn light" href="${safeUrl(x.url)}" target="_blank" rel="noopener">Testo ufficiale ↗</a>`
+          : `<button class="btn light" onclick="editBando(${x.i})">＋ Inserisci fonte</button>`
+        }
+      </div>
+    </article>
   `;
-
 }
 
 
@@ -1196,154 +1157,104 @@ function togglePreferito(i){
 ========================= */
 
 function newBando(){
-
   editIndex = null;
-
   fill({
-
-    nome:'',
-    ente:'',
-    categoria:'',
-    stato:'Attivi',
-    apertura:'',
-    scadenza:'',
-    url:'',
-    descrizione:'',
-    beneficiari:'',
-    agevolazione:'',
-    spese:'',
-    note:'',
-    preferito:false
-
+    nome:'', ente:'', categoria:'', stato:'Attivi', apertura:'',
+    scadenza:'', url:'', descrizione:'', beneficiari:'',
+    agevolazione:'', spese:'', note:'', preferito:false
   });
-
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent = 'Nuovo bando';
-
-
-  document.getElementById(
-    'deleteBtn'
-  ).style.display = 'none';
-
-
+  document.getElementById('modalTitle').textContent = 'Nuovo bando';
+  document.getElementById('deleteBtn').style.display = 'none';
+  showEditView();
   openModal();
-
 }
 
-
 /* =========================
-   MODIFICA BANDO
+   SCHEDA DI LETTURA
 ========================= */
 
 function editBando(i){
-
   editIndex = i;
-
   fill(bandi[i]);
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent = 'Modifica scheda';
-
-
-  document.getElementById(
-    'deleteBtn'
-  ).style.display = 'block';
-
-
+  document.getElementById('modalTitle').textContent = bandi[i].nome || 'Scheda bando';
+  renderReadView(bandi[i]);
+  showReadView();
   openModal();
-
 }
 
+function renderReadView(x){
+  const d = x.scadenza
+    ? new Date(x.scadenza + 'T00:00:00').toLocaleDateString('it-IT')
+    : 'Non indicata';
+
+  const item = (label, value, full=false, raw=false) => `
+    <div class="read-item ${full ? 'full' : ''}">
+      <span class="read-label">${label}</span>
+      <div class="read-value ${value ? '' : 'read-empty'}">${raw ? (value || 'Non compilato') : esc(value || 'Non compilato')}</div>
+    </div>`;
+
+  document.getElementById('readContent').innerHTML = `
+    <div class="read-grid">
+      ${item('Ente', x.ente)}
+      ${item('Categoria', x.categoria)}
+      ${item('Stato', x.stato)}
+      ${item('Modalità di apertura', x.apertura)}
+      ${item('Scadenza', d)}
+      ${item('Breve descrizione', x.descrizione, true)}
+      ${item('Soggetti beneficiari', x.beneficiari, true)}
+      ${item('Entità e forma agevolazione', x.agevolazione, true)}
+      ${item('Spese ammissibili', x.spese, true)}
+      ${item('Note operative', x.note, true)}
+      ${item('Testo ufficiale', x.url ? `<a href="${safeUrl(x.url)}" target="_blank" rel="noopener">${esc(x.url)}</a>` : '', true, true)}
+    </div>`;
+}
+
+function showReadView(){
+  document.getElementById('readView').style.display = 'block';
+  document.getElementById('editView').style.display = 'none';
+  document.getElementById('readDeleteBtn').style.display = editIndex !== null ? 'inline-flex' : 'none';
+}
+
+function showEditView(){
+  document.getElementById('readView').style.display = 'none';
+  document.getElementById('editView').style.display = 'block';
+}
+
+function startEdit(){
+  if(editIndex === null) return;
+  document.getElementById('modalTitle').textContent = 'Modifica scheda';
+  document.getElementById('deleteBtn').style.display = 'inline-flex';
+  showEditView();
+}
+
+function cancelEdit(){
+  if(editIndex !== null){
+    renderReadView(bandi[editIndex]);
+    document.getElementById('modalTitle').textContent = bandi[editIndex].nome || 'Scheda bando';
+    showReadView();
+  } else {
+    closeModal();
+  }
+}
 
 /* =========================
    RIEMPI FORM
 ========================= */
 
 function fill(x){
-
-  document.getElementById('fNome').value =
-    x.nome || '';
-
-  document.getElementById('fEnte').value =
-    x.ente || '';
-
-  document.getElementById('fCat').value =
-    x.categoria || '';
-
-  document.getElementById('fStato').value =
-    x.stato || 'Attivi';
-
-  document.getElementById('fApertura').value =
-    x.apertura || '';
-
-  document.getElementById('fScad').value =
-    x.scadenza || '';
-
-  document.getElementById('fUrl').value =
-    x.url || '';
-
-  document.getElementById('fDescrizione').value =
-    x.descrizione || x.sintesi || '';
-
-  document.getElementById('fBeneficiari').value =
-    x.beneficiari || '';
-
-  document.getElementById('fAgevolazione').value =
-    x.agevolazione || '';
-
-  document.getElementById('fSpese').value =
-    x.spese || '';
-
-  document.getElementById('fNote').value =
-    x.note || '';
-
+  document.getElementById('fNome').value = x.nome || '';
+  document.getElementById('fEnte').value = x.ente || '';
+  document.getElementById('fCat').value = x.categoria || '';
+  document.getElementById('fStato').value = x.stato || 'Attivi';
+  document.getElementById('fApertura').value = x.apertura || '';
+  document.getElementById('fScad').value = x.scadenza || '';
+  document.getElementById('fUrl').value = x.url || '';
+  document.getElementById('fDescrizione').value = x.descrizione || x.sintesi || '';
+  document.getElementById('fBeneficiari').value = x.beneficiari || '';
+  document.getElementById('fAgevolazione').value = x.agevolazione || '';
+  document.getElementById('fSpese').value = x.spese || '';
+  document.getElementById('fNote').value = x.note || '';
 }
-
-
-/* =========================
-   LETTURA FORM
-========================= */
-
-function read(){
-
-  return {
-
-    nome:f('fNome'),
-
-    ente:f('fEnte'),
-
-    categoria:f('fCat'),
-
-    stato:f('fStato'),
-
-    apertura:f('fApertura'),
-
-    scadenza:f('fScad'),
-
-    url:f('fUrl'),
-
-    descrizione:f('fDescrizione'),
-
-    beneficiari:f('fBeneficiari'),
-
-    agevolazione:f('fAgevolazione'),
-
-    spese:f('fSpese'),
-
-    note:f('fNote'),
-
-    preferito:
-      editIndex !== null
-      ? !!bandi[editIndex].preferito
-      : false
-
-  };
-
-}
-
 
 /* =========================
    VALUE HELPER
