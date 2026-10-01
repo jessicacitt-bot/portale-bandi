@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portale Bandi</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#182230;--muted:#667085;--line:#e3e7ee;--accent:#182230}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{background:#111827;color:#fff;padding:30px max(24px,6vw) 34px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#aab4c4;font-weight:700}.title{font-size:36px;font-weight:800;margin:8px 0 4px}.sub{color:#c7cfdb}
+main{max-width:1300px;margin:auto;padding:26px 24px 70px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+input,select,textarea{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;font:inherit;color:inherit}#search{flex:1;min-width:240px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.tab{border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px}.tab.active{background:#111827;color:#fff;border-color:#111827}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 3px 12px #1118270a}.card h3{margin:10px 0 5px;font-size:18px}.entity{font-size:13px;color:var(--muted);margin-bottom:16px}.pill{font-size:11px;padding:5px 8px;border-radius:99px;background:#eef2f7;font-weight:800}.status{float:right}.date{font-size:12px;color:var(--muted);margin:12px 0}.desc{font-size:13px;line-height:1.45;color:#475467;min-height:55px}.actions{display:flex;gap:8px;margin-top:14px}.btn{border:0;border-radius:9px;padding:9px 11px;font-weight:700;cursor:pointer;background:#111827;color:white}.btn.light{background:#eef1f5;color:#182230}.empty{display:none;text-align:center;padding:55px;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#101828aa;z-index:20;padding:20px;align-items:center;justify-content:center}.modal.show{display:flex}.box{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:18px;padding:25px}.close{float:right;border:0;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:20px}.box h2{margin:0 45px 18px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#667085}.field input,.field select,.field textarea{width:100%}.field textarea{min-height:100px;resize:vertical}.footer-actions{display:flex;gap:9px;margin-top:20px}.footer-actions .btn{flex:1}.danger{background:#fee4e2!important;color:#b42318!important}
+.notice{padding:12px 14px;background:#fff8e7;border-radius:10px;font-size:12px;color:#664d03;margin:16px 0}
+@media(max-width:650px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.title{font-size:29px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">Finanza agevolata</div><div class="title">Portale Bandi</div><div class="sub">Schede di sintesi, scadenze e fonti ufficiali</div></header>
+<main>
+<div class="toolbar">
+<input id="search" placeholder="Cerca bando, ente o categoria…" oninput="render()">
+<select id="cat" onchange="render()"><option value="">Tutte le categorie</option></select>
+<button class="btn" onclick="newBando()">＋ Aggiungi bando</button>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="grid" id="grid"></div><div class="empty" id="empty">Nessun bando corrisponde ai filtri.</div>
+</main>
+
+<div class="modal" id="modal"><div class="box">
+<button class="close" onclick="closeModal()">×</button>
+<h2 id="modalTitle">Nuovo bando</h2>
+<div class="formgrid">
+<div class="field"><label>Nome del bando</label><input id="fNome"></div>
+<div class="field"><label>Ente</label><input id="fEnte"></div>
+<div class="field"><label>Categoria</label><input id="fCat"></div>
+<div class="field"><label>Stato</label><select id="fStato"><option>Attivi</option><option>In apertura</option><option>Chiusi</option><option>Da verificare</option></select></div>
+<div class="field"><label>Scadenza</label><input id="fScad" type="date"></div><div class="field"><label>Preferito</label><select id="fPref"><option value="no">No</option><option value="yes">Sì</option></select></div>
+<div class="field"><label>Link al testo ufficiale</label><input id="fUrl" type="url" placeholder="https://…"></div>
+<div class="field full"><label>Scheda di sintesi</label><textarea id="fSintesi" placeholder="Requisiti, beneficiari, spese, agevolazione, ecc."></textarea></div>
+<div class="field full"><label>Note operative personali</label><textarea id="fNote" placeholder="Controlli, documenti da chiedere, avvertenze…"></textarea></div>
+</div>
+<div class="notice">I dati vengono salvati nel <b>browser di questo dispositivo</b> tramite memoria locale. Non serve un server.</div>
+<div class="footer-actions">
+<button class="btn light" onclick="closeModal()">Annulla</button><button class="btn" onclick="saveBando()">Salva</button>
+<button class="btn danger" id="deleteBtn" style="display:none" onclick="deleteBando()">Elimina</button>
+</div>
+</div></div>
+
+<script>
+const initial=[{"nome": "Nuova Sabatini", "ente": "MIMIT", "categoria": "Investimenti", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Agevolazione per investimenti delle PMI in beni strumentali, hardware, software e tecnologie.", "note": "", "preferito": true}, {"nome": "Smart&Start Italia", "ente": "Invitalia", "categoria": "Startup", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Incentivo dedicato alle startup innovative per sostenere piani di investimento e sviluppo.", "note": "", "preferito": true}, {"nome": "ON – Oltre Nuove imprese a tasso zero", "ente": "Invitalia", "categoria": "Nuove imprese", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Agevolazione per la creazione e lo sviluppo di micro e piccole imprese a prevalente partecipazione giovanile o femminile.", "note": "", "preferito": true}, {"nome": "ISI INAIL", "ente": "INAIL", "categoria": "Sicurezza", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Contributi per interventi finalizzati al miglioramento della salute e sicurezza nei luoghi di lavoro.", "note": "", "preferito": true}, {"nome": "Brevetti+", "ente": "MIMIT", "categoria": "Proprietà intellettuale", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Misura a sostegno della valorizzazione economica dei brevetti.", "note": "", "preferito": true}, {"nome": "Marchi+", "ente": "MIMIT", "categoria": "Proprietà intellettuale", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Contributi per la tutela e valorizzazione dei marchi all'estero.", "note": "", "preferito": true}, {"nome": "Disegni+", "ente": "MIMIT", "categoria": "Proprietà intellettuale", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Contributi per valorizzare economicamente disegni e modelli.", "note": "", "preferito": true}, {"nome": "Bandi SIMEST", "ente": "SIMEST", "categoria": "Internazionalizzazione", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Strumenti agevolativi per investimenti e progetti di internazionalizzazione delle imprese.", "note": "", "preferito": true}, {"nome": "Voucher Digitali", "ente": "Camere di Commercio", "categoria": "Digitalizzazione", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Voucher camerali per progetti di digitalizzazione e innovazione delle imprese.", "note": "", "preferito": true}, {"nome": "Voucher Transizione Energetica", "ente": "Vari enti", "categoria": "Energia", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Misure a sostegno di interventi di efficientamento e transizione energetica.", "note": "", "preferito": true}, {"nome": "Fiere", "ente": "Vari enti", "categoria": "Internazionalizzazione", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Contributi e voucher per la partecipazione a fiere ed eventi di promozione commerciale.", "note": "", "preferito": true}, {"nome": "Formazione Continua", "ente": "Regione Lombardia", "categoria": "Formazione", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Strumenti regionali per finanziare percorsi di formazione continua dei lavoratori.", "note": "", "preferito": true}, {"nome": "Patent Box", "ente": "Agenzia delle Entrate", "categoria": "Fiscale", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Regime agevolativo collegato alle attività di ricerca e sviluppo e alla valorizzazione di determinati beni immateriali.", "note": "", "preferito": true}, {"nome": "Iperammortamento", "ente": "MIMIT / Agenzia Entrate", "categoria": "Investimenti", "stato": "Attivi", "scadenza": "", "url": "", "sintesi": "Misura fiscale collegata agli investimenti in beni e tecnologie rilevanti secondo la normativa vigente.", "note": "", "preferito": true}, {"nome": "Nuova Impresa – Regione Lombardia", "ente": "Regione Lombardia", "categoria": "Nuove imprese", "stato": "Da verificare", "scadenza": "", "url": "", "sintesi": "Misura regionale per sostenere la nascita e l'avvio di nuove imprese.", "note": "", "preferito": true}, {"nome": "Fondo di contrasto alla deindustrializzazione 2026", "ente": "Invitalia / Dipartimento Politiche di Coesione", "categoria": "Investimenti", "stato": "Attivi", "scadenza": "2026-11-28", "url": "https://www.invitalia.it/incentivi-e-strumenti/fondo-di-contrasto-alla-deindustrializzazione-2026", "sintesi": "Contributo in conto capitale per imprese manifatturiere che investono nel potenziamento, riqualificazione o insediamento di unità produttive nei territori dei consorzi industriali del Lazio e del Piceno. Fino al 100% delle spese ammesse e massimo 300.000 euro. Domande dal 28/09/2026 al 28/11/2026.", "note": "Verificare che sede/unità produttiva rientri nei territori dei consorzi ammessi.", "preferito": false}, {"nome": "Sviluppo tecnologico delle startup innovative", "ente": "Regione Lombardia / Finlombarda", "categoria": "Startup / Innovazione", "stato": "Attivi", "scadenza": "2026-11-25", "url": "https://www.regione.lombardia.it/attivita-produttive-imprese/start-up-e-avvio-di-impresa/sviluppo-tecnologico-delle-startup-innovative", "sintesi": "Contributo a fondo perduto fino all'80% per startup innovative ad alto contenuto tecnologico, per ricerca, sviluppo, prototipazione e test. Dotazione 15,64 milioni; contributo massimo 1 milione, elevabile a 1,5 milioni nelle zone assistite.", "note": "Domande aperte dal 28/09/2026. Riserva di 7 milioni per progetti energetici.", "preferito": false}, {"nome": "Bando Adeguati Assetti Organizzativi 2026", "ente": "Camera di Commercio di Bari", "categoria": "Servizi / Organizzazione", "stato": "In apertura", "scadenza": "2026-11-13", "url": "https://www.ba.camcom.it/info/bando-adeguati-assetti-organizzativi-2026", "sintesi": "Voucher per MPMI e imprenditori della provincia di Bari per acquisire servizi e strumenti utili a valutare struttura organizzativa, economica e finanziaria e prevenire situazioni di crisi. Contributo fino al 70%, massimo 7.000 euro, investimento minimo 3.000 euro.", "note": "Domande dal 13/10/2026 al 13/11/2026 tramite ReStart. Dotazione 300.000 euro.", "preferito": false}, {"nome": "Bando Certificazione Competenze 2026", "ente": "Camera di Commercio di Bari", "categoria": "Formazione", "stato": "Attivi", "scadenza": "2026-12-16", "url": "https://www.ba.camcom.it/info/bando-certificazione-competenze-anno-2026", "sintesi": "Contributo alle MPMI di Bari che ospitano studenti in percorsi scuola-lavoro finalizzati alla certificazione delle competenze. Contributo per tutoraggio da 3.000 a 5.000 euro, più 500 euro per studenti con disabilità.", "note": "Domande dal 01/10/2026 al 16/12/2026. Dotazione 100.000 euro.", "preferito": false}];
+const KEY='portale_bandi_v3';
+let bandi=JSON.parse(localStorage.getItem(KEY)||'null')||initial;
+let filter='Tutti', editIndex=null;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(bandi))}
+function cats(){return [...new Set(bandi.map(x=>x.categoria).filter(Boolean))].sort()}
+function setup(){
+ document.getElementById('cat').innerHTML='<option value="">Tutte le categorie</option>'+cats().map(x=>`<option>${esc(x)}</option>`).join('');
+ renderTabs();render();
+}
+function renderTabs(){
+ const states=['Tutti','Preferiti','Attivi','In apertura','Chiusi','Da verificare'];
+ document.getElementById('tabs').innerHTML=states.map(s=>`<button class="tab ${filter===s?'active':''}" onclick="filter='${s}';renderTabs();render()">${s} <span>(${s==='Tutti'?bandi.length:bandi.filter(x=>x.stato===s).length})</span></button>`).join('');
+}
+function render(){
+ const q=document.getElementById('search').value.toLowerCase(), c=document.getElementById('cat').value;
+ const list=bandi.map((x,i)=>({...x,i})).filter(x=>(filter==='Tutti'||(filter==='Preferiti'?x.preferito===true:x.stato===filter))&&(!c||x.categoria===c)&&(`${x.nome} ${x.ente} ${x.categoria} ${x.sintesi} ${x.note}`.toLowerCase().includes(q)));
+ document.getElementById('grid').innerHTML=list.map(card).join('');
+ document.getElementById('empty').style.display=list.length?'none':'block';
+}
+function card(x){
+ const d=x.scadenza?new Date(x.scadenza+'T00:00:00').toLocaleDateString('it-IT'):'Non indicata';
+ return `<article class="card"><span class="pill">${esc(x.categoria||'Altro')}</span><span class="pill status">${esc(x.stato)}</span>
+ <h3>${x.preferito?'★ ':''}${esc(x.nome)}</h3><div class="entity">${esc(x.ente)}</div><div class="desc">${esc(x.sintesi||'Nessuna sintesi inserita.')}</div>
+ <div class="date">Scadenza: <b>${d}</b></div><div class="actions"><button class="btn" onclick="editBando(${x.i})">Apri scheda</button>
+ ${x.url?`<a class="btn light" href="${safeUrl(x.url)}" target="_blank" rel="noopener">Testo ufficiale ↗</a>`:`<button class="btn light" onclick="editBando(${x.i})">＋ Inserisci fonte</button>`}</div></article>`;
+}
+function newBando(){editIndex=null;fill({nome:'',ente:'',categoria:'',stato:'Attivi',scadenza:'',url:'',sintesi:'',note:''});document.getElementById('modalTitle').textContent='Nuovo bando';document.getElementById('deleteBtn').style.display='none';openModal()}
+function editBando(i){editIndex=i;fill(bandi[i]);document.getElementById('modalTitle').textContent='Modifica scheda';document.getElementById('deleteBtn').style.display='block';openModal()}
+function fill(x){['Nome','Ente','Cat','Stato','Scad','Url','Sintesi','Note'].forEach(k=>document.getElementById('f'+k).value=x[{Nome:'nome',Ente:'ente',Cat:'categoria',Stato:'stato',Scad:'scadenza',Url:'url',Sintesi:'sintesi',Note:'note'}[k]]||'')};document.getElementById('fPref').value=x.preferito?'yes':'no'
+function read(){return {nome:f('fNome'),ente:f('fEnte'),categoria:f('fCat'),stato:f('fStato'),scadenza:f('fScad'),url:f('fUrl'),sintesi:f('fSintesi'),note:f('fNote'),preferito:f('fPref')==='yes'}}
+function f(id){return document.getElementById(id).value.trim()}
+function saveBando(){const x=read();if(!x.nome){alert('Inserisci almeno il nome del bando.');return} if(editIndex===null)bandi.push(x);else bandi[editIndex]=x;save();closeModal();setup()}
+function deleteBando(){if(editIndex!==null&&confirm('Eliminare questa scheda?')){bandi.splice(editIndex,1);save();closeModal();setup()}}
+function openModal(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function safeUrl(u){try{const x=new URL(u);return ['http:','https:'].includes(x.protocol)?x.href:'#'}catch{return '#'}}
+setup();
+</script></body></html>
