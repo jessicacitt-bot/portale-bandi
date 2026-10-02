@@ -1,921 +1,2153 @@
 <!doctype html>
 <html lang="it">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
 <title>Portale Bandi</title>
 
+
 <style>
+
+/* =========================================================
+   VARIABILI
+========================================================= */
+
 :root{
+
   --bg:#f4f6fa;
-  --card:#fff;
+
+  --card:#ffffff;
+
   --ink:#182230;
+
   --muted:#667085;
+
   --line:#e3e7ee;
-  --accent:#182230;
+
+  --accent:#111827;
+
   --gold:#f5b700;
+
+  --blue:#2563eb;
+
+  --green:#067647;
+
+  --green-bg:#ecfdf3;
+
+  --orange:#b54708;
+
+  --orange-bg:#fffaeb;
+
+  --red:#b42318;
+
+  --red-bg:#fee4e2;
+
 }
 
-*{box-sizing:border-box}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  box-sizing:border-box;
+}
+
 
 body{
+
   margin:0;
+
   background:var(--bg);
+
   color:var(--ink);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
 }
 
-/* HEADER */
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 header{
+
   background:#111827;
+
   color:#fff;
-  padding:30px max(24px,6vw) 34px
+
+  padding:
+    30px
+    max(24px,6vw)
+    34px;
+
 }
+
 
 .eyebrow{
+
   font-size:12px;
+
   text-transform:uppercase;
+
   letter-spacing:.14em;
+
   color:#aab4c4;
-  font-weight:700
+
+  font-weight:700;
+
 }
+
 
 .title{
+
   font-size:36px;
+
   font-weight:800;
-  margin:8px 0 4px
+
+  margin:8px 0 4px;
+
 }
+
 
 .sub{
-  color:#c7cfdb
+
+  color:#c7cfdb;
+
 }
 
-/* MAIN */
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 main{
-  max-width:1300px;
+
+  max-width:1450px;
+
   margin:auto;
-  padding:26px 24px 70px
+
+  padding:26px 24px 70px;
+
 }
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.layout{
+
+  display:grid;
+
+  grid-template-columns:250px minmax(0,1fr);
+
+  gap:24px;
+
+  align-items:start;
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+  background:#fff;
+
+  border:1px solid var(--line);
+
+  border-radius:15px;
+
+  padding:17px;
+
+  position:sticky;
+
+  top:20px;
+
+  box-shadow:
+    0 3px 12px #1118270a;
+
+}
+
+
+.filter-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding-bottom:15px;
+
+  margin-bottom:4px;
+
+  border-bottom:1px solid var(--line);
+
+}
+
+
+.filter-title{
+
+  font-size:15px;
+
+  font-weight:800;
+
+}
+
+
+.filter-result{
+
+  display:block;
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  margin-top:3px;
+
+}
+
+
+.reset-btn{
+
+  border:0;
+
+  background:#eef1f5;
+
+  color:#182230;
+
+  border-radius:8px;
+
+  padding:7px 9px;
+
+  cursor:pointer;
+
+  font-size:11px;
+
+  font-weight:800;
+
+}
+
+
+.reset-btn:hover{
+
+  background:#e3e7ee;
+
+}
+
+
+.filter-group{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:6px;
+
+  margin-top:17px;
+
+}
+
+
+.filter-group label{
+
+  font-size:11px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:.04em;
+
+  color:#667085;
+
+}
+
+
+.filter-group select,
+.filter-group input{
+
+  width:100%;
+
+  min-width:0;
+
+  padding:9px 10px;
+
+  font-size:13px;
+
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+
+  min-width:0;
+
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
 
 .toolbar{
+
   display:flex;
+
   gap:10px;
+
   flex-wrap:wrap;
-  margin-bottom:18px
+
+  margin-bottom:18px;
+
 }
 
-input,select,textarea{
+
+input,
+select,
+textarea{
+
   border:1px solid var(--line);
+
   background:#fff;
+
   border-radius:10px;
+
   padding:11px 13px;
+
   font:inherit;
-  color:inherit
+
+  color:inherit;
+
+  outline:none;
+
 }
+
+
+input:focus,
+select:focus,
+textarea:focus{
+
+  border-color:#98a2b3;
+
+  box-shadow:
+    0 0 0 3px #1118270d;
+
+}
+
 
 #search{
+
   flex:1;
-  min-width:240px
+
+  min-width:240px;
+
 }
 
-/* TABS */
 
-.tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:22px
-}
-
-.tab{
-  border:1px solid var(--line);
-  background:#fff;
-  padding:9px 13px;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:700;
-  font-size:13px
-}
-
-.tab.active{
-  background:#111827;
-  color:#fff;
-  border-color:#111827
-}
-
-/* CARDS */
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:15px
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:15px;
-  padding:18px;
-  box-shadow:0 3px 12px #1118270a;
-  position:relative
-}
-
-.card h3{
-  margin:10px 52px 5px 0;
-  font-size:18px
-}
-
-.entity{
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:15px
-}
-
-.pill{
-  font-size:11px;
-  padding:5px 8px;
-  border-radius:99px;
-  background:#eef2f7;
-  font-weight:800;
-  display:inline-block
-}
-
-.status{
-  float:right
-}
-
-.star{
-  position:absolute;
-  bottom:16px;
-  right:16px;
-  z-index:2;
-  border:0;
-  background:#f4f6fa;
-  border-radius:50%;
-  width:34px;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  font-size:22px;
-  line-height:1;
-  color:#c8ced8;
-  padding:0
-}
-
-.star.active{
-  color:var(--gold)
-}
-
-.date{
-  font-size:12px;
-  color:var(--muted);
-  margin:12px 0
-}
-
-.desc{
-  font-size:13px;
-  line-height:1.45;
-  color:#475467;
-  margin-bottom:14px
-}
-
-.card-section{
-  border-top:1px solid #eef0f4;
-  padding-top:11px;
-  margin-top:11px
-}
-
-.opening{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-size:11px;
-  padding:5px 8px;
-  border-radius:99px;
-  background:#f1f5f9;
-  font-weight:800;
-  margin-top:5px
-}
-
-.actions{
-  display:flex;
-  gap:8px;
-  margin-top:16px;
-  padding-right:46px;
-  flex-wrap:wrap
-}
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 .btn{
+
   border:0;
+
   border-radius:9px;
+
   padding:9px 11px;
+
   font-weight:700;
+
   cursor:pointer;
+
   background:#111827;
+
   color:white;
+
   text-decoration:none;
+
   display:inline-flex;
+
   align-items:center;
-  justify-content:center
+
+  justify-content:center;
+
+  gap:5px;
+
 }
+
+
+.btn:hover{
+
+  background:#1f2937;
+
+}
+
 
 .btn.light{
+
   background:#eef1f5;
-  color:#182230
+
+  color:#182230;
+
 }
+
+
+.btn.light:hover{
+
+  background:#e4e8ee;
+
+}
+
+
+.danger{
+
+  background:#fee4e2!important;
+
+  color:#b42318!important;
+
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tabs{
+
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:14px;
+
+}
+
+
+.tab{
+
+  border:1px solid var(--line);
+
+  background:#fff;
+
+  padding:9px 13px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  font-size:13px;
+
+}
+
+
+.tab:hover{
+
+  background:#f8fafc;
+
+}
+
+
+.tab.active{
+
+  background:#111827;
+
+  color:#fff;
+
+  border-color:#111827;
+
+}
+
+
+/* =========================================================
+   RISULTATI
+========================================================= */
+
+.results-info{
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  margin:0 0 13px;
+
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(320px,1fr)
+    );
+
+  gap:15px;
+
+}
+
+
+.card{
+
+  background:var(--card);
+
+  border:1px solid var(--line);
+
+  border-radius:15px;
+
+  padding:18px;
+
+  box-shadow:
+    0 3px 12px #1118270a;
+
+  position:relative;
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+
+}
+
+
+.card:hover{
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 6px 18px #11182712;
+
+}
+
+
+.card h3{
+
+  margin:
+    10px
+    52px
+    5px
+    0;
+
+  font-size:18px;
+
+}
+
+
+.entity{
+
+  font-size:13px;
+
+  color:var(--muted);
+
+  margin-bottom:13px;
+
+}
+
+
+.pill{
+
+  font-size:11px;
+
+  padding:5px 8px;
+
+  border-radius:99px;
+
+  background:#eef2f7;
+
+  font-weight:800;
+
+  display:inline-block;
+
+}
+
+
+.status{
+
+  float:right;
+
+}
+
+
+.star{
+
+  position:absolute;
+
+  bottom:16px;
+
+  right:16px;
+
+  z-index:2;
+
+  border:0;
+
+  background:#f4f6fa;
+
+  border-radius:50%;
+
+  width:34px;
+
+  height:34px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:22px;
+
+  line-height:1;
+
+  color:#c8ced8;
+
+  padding:0;
+
+}
+
+
+.star.active{
+
+  color:var(--gold);
+
+}
+
+
+.badges{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:6px;
+
+  margin-bottom:12px;
+
+}
+
+
+.meta-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:4px;
+
+  font-size:11px;
+
+  padding:5px 8px;
+
+  border-radius:99px;
+
+  background:#f1f5f9;
+
+  color:#475467;
+
+  font-weight:700;
+
+}
+
+
+.date{
+
+  font-size:12px;
+
+  color:var(--muted);
+
+  margin:12px 0;
+
+}
+
+
+.desc{
+
+  font-size:13px;
+
+  line-height:1.45;
+
+  color:#475467;
+
+  margin-bottom:14px;
+
+}
+
+
+.actions{
+
+  display:flex;
+
+  gap:8px;
+
+  margin-top:16px;
+
+  padding-right:46px;
+
+  flex-wrap:wrap;
+
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .empty{
+
   display:none;
+
   text-align:center;
+
   padding:55px;
-  color:var(--muted)
+
+  color:var(--muted);
+
+  background:#fff;
+
+  border:1px dashed var(--line);
+
+  border-radius:15px;
+
 }
 
-/* MODAL */
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
+
   display:none;
+
   position:fixed;
+
   inset:0;
+
   background:#101828aa;
+
   z-index:20;
+
   padding:20px;
+
   align-items:center;
-  justify-content:center
+
+  justify-content:center;
+
 }
+
 
 .modal.show{
-  display:flex
+
+  display:flex;
+
 }
+
 
 .box{
+
   background:#fff;
-  width:min(820px,100%);
+
+  width:min(900px,100%);
+
   max-height:92vh;
+
   overflow:auto;
+
   border-radius:18px;
-  padding:25px
+
+  padding:25px;
+
+  box-shadow:
+    0 20px 50px #00000025;
+
 }
+
 
 .close{
+
   float:right;
+
   border:0;
+
+  background:#f2f4f7;
+
   border-radius:50%;
+
   width:34px;
+
   height:34px;
+
   cursor:pointer;
-  font-size:20px
+
+  font-size:20px;
+
 }
+
+
+.close:hover{
+
+  background:#e4e7ec;
+
+}
+
 
 .box h2{
-  margin:0 45px 22px 0
+
+  margin:
+    0
+    45px
+    22px
+    0;
+
 }
+
+
+/* =========================================================
+   FORM
+========================================================= */
 
 .formgrid{
+
   display:grid;
+
   grid-template-columns:1fr 1fr;
-  gap:14px
+
+  gap:14px;
+
 }
+
 
 .field{
+
   display:flex;
+
   flex-direction:column;
-  gap:6px
+
+  gap:6px;
+
 }
+
 
 .field.full{
-  grid-column:1/-1
+
+  grid-column:1/-1;
+
 }
 
+
 .field label{
+
   font-size:12px;
+
   font-weight:800;
-  color:#667085
+
+  color:#667085;
+
 }
+
 
 .field input,
 .field select,
 .field textarea{
-  width:100%
+
+  width:100%;
+
 }
+
 
 .field textarea{
+
   min-height:110px;
-  resize:vertical
+
+  resize:vertical;
+
 }
+
 
 .section-title{
+
   grid-column:1/-1;
+
   font-size:14px;
+
   font-weight:800;
+
   padding:12px 0 2px;
+
   border-bottom:1px solid var(--line);
-  margin-top:5px
+
+  margin-top:5px;
+
 }
+
 
 .footer-actions{
+
   display:flex;
+
   gap:9px;
-  margin-top:20px
+
+  margin-top:20px;
+
 }
+
 
 .footer-actions .btn{
-  flex:1
+
+  flex:1;
+
 }
 
-.danger{
-  background:#fee4e2!important;
-  color:#b42318!important
-}
 
 .notice{
+
   padding:12px 14px;
+
   background:#fff8e7;
+
   border-radius:10px;
+
   font-size:12px;
+
   color:#664d03;
-  margin:18px 0
+
+  margin:18px 0;
+
 }
 
 
-/* SCHEDA DI LETTURA */
-.read-view{display:block}
-.read-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border-top:1px solid var(--line);
-}
-.read-item{
-  padding:14px 10px 14px 0;
-  border-bottom:1px solid var(--line);
-}
-.read-item.full{grid-column:1/-1}
-.read-label{
+/* =========================================================
+   LETTURA
+========================================================= */
+
+.read-view{
+
   display:block;
+
+}
+
+
+.read-grid{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:0;
+
+  border-top:1px solid var(--line);
+
+}
+
+
+.read-item{
+
+  padding:14px 10px 14px 0;
+
+  border-bottom:1px solid var(--line);
+
+}
+
+
+.read-item.full{
+
+  grid-column:1/-1;
+
+}
+
+
+.read-label{
+
+  display:block;
+
   font-size:11px;
+
   text-transform:uppercase;
+
   letter-spacing:.04em;
+
   font-weight:800;
+
   color:#667085;
+
   margin-bottom:5px;
+
 }
+
+
 .read-value{
+
   font-size:14px;
+
   line-height:1.5;
+
   white-space:pre-wrap;
+
 }
-.read-empty{color:#98a2b3;font-style:italic}
+
+
+.read-empty{
+
+  color:#98a2b3;
+
+  font-style:italic;
+
+}
+
+
 .mode-actions{
+
   display:flex;
+
   gap:9px;
+
   margin-top:20px;
+
   flex-wrap:wrap;
+
 }
-.mode-actions .btn{flex:1}
+
+
+.mode-actions .btn{
+
+  flex:1;
+
+}
+
+
+/* =========================================================
+   MULTI ATECO
+========================================================= */
+
+.help-text{
+
+  font-size:11px;
+
+  color:#98a2b3;
+
+  line-height:1.35;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+  .layout{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .sidebar{
+
+    position:static;
+
+  }
+
+  .filter-header{
+
+    margin-bottom:0;
+
+  }
+
+}
+
 
 @media(max-width:650px){
+
   .formgrid{
-    grid-template-columns:1fr
+
+    grid-template-columns:1fr;
+
   }
 
   .field.full,
   .section-title{
-    grid-column:auto
+
+    grid-column:auto;
+
   }
 
   .title{
-    font-size:29px
+
+    font-size:29px;
+
   }
+
+  .read-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .read-item.full{
+
+    grid-column:auto;
+
+  }
+
+  .sidebar{
+
+    padding:14px;
+
+  }
+
+  .grid{
+
+    grid-template-columns:1fr;
+
+  }
+
 }
+
+
 </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <header>
-  <div class="eyebrow">Finanza agevolata</div>
-  <div class="title">Portale Bandi</div>
-  <div class="sub">Schede di sintesi, scadenze e fonti ufficiali</div>
+
+  <div class="eyebrow">
+    Finanza agevolata
+  </div>
+
+  <div class="title">
+    Portale Bandi
+  </div>
+
+  <div class="sub">
+    Schede di sintesi, scadenze, ATECO e fonti ufficiali
+  </div>
+
 </header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <main>
 
-<div class="toolbar">
+  <div class="layout">
 
-  <input
-    id="search"
-    placeholder="Cerca bando, ente o categoria…"
-    oninput="render()"
-  >
 
-  <select id="cat" onchange="render()">
-    <option value="">Tutte le categorie</option>
-  </select>
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
 
-  <button class="btn" onclick="newBando()">
-    ＋ Aggiungi bando
-  </button>
+    <aside class="sidebar">
 
-</div>
+      <div class="filter-header">
 
-<div class="tabs" id="tabs"></div>
+        <div>
 
-<div class="grid" id="grid"></div>
+          <div class="filter-title">
+            Filtri
+          </div>
 
-<div class="empty" id="empty">
-  Nessun bando corrisponde ai filtri.
-</div>
+          <span
+            class="filter-result"
+            id="filterCount"
+          >
+            0 risultati
+          </span>
+
+        </div>
+
+        <button
+          class="reset-btn"
+          onclick="resetFilters()"
+        >
+          Azzera
+        </button>
+
+      </div>
+
+
+      <!-- ATECO -->
+
+      <div class="filter-group">
+
+        <label for="filterAteco">
+          ATECO
+        </label>
+
+        <select
+          id="filterAteco"
+          onchange="render()"
+        >
+
+          <option value="">
+            Tutti gli ATECO
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- ENTE -->
+
+      <div class="filter-group">
+
+        <label for="filterEnte">
+          Ente
+        </label>
+
+        <select
+          id="filterEnte"
+          onchange="render()"
+        >
+
+          <option value="">
+            Tutti gli enti
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- LUOGO -->
+
+      <div class="filter-group">
+
+        <label for="filterLuogo">
+          Luogo / territorio
+        </label>
+
+        <select
+          id="filterLuogo"
+          onchange="render()"
+        >
+
+          <option value="">
+            Tutti i luoghi
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- CATEGORIA -->
+
+      <div class="filter-group">
+
+        <label for="cat">
+          Categoria
+        </label>
+
+        <select
+          id="cat"
+          onchange="render()"
+        >
+
+          <option value="">
+            Tutte le categorie
+          </option>
+
+        </select>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================== -->
+
+    <section class="content">
+
+
+      <!-- TOOLBAR -->
+
+      <div class="toolbar">
+
+        <input
+          id="search"
+          placeholder="Cerca bando, ente, ATECO, luogo o categoria…"
+          oninput="render()"
+        >
+
+        <button
+          class="btn"
+          onclick="newBando()"
+        >
+          ＋ Aggiungi bando
+        </button>
+
+      </div>
+
+
+      <!-- TABS -->
+
+      <div
+        class="tabs"
+        id="tabs"
+      ></div>
+
+
+      <!-- RISULTATI -->
+
+      <div
+        class="results-info"
+        id="resultsCount"
+      ></div>
+
+
+      <!-- GRID -->
+
+      <div
+        class="grid"
+        id="grid"
+      ></div>
+
+
+      <!-- EMPTY -->
+
+      <div
+        class="empty"
+        id="empty"
+      >
+        Nessun bando corrisponde ai filtri.
+      </div>
+
+
+    </section>
+
+  </div>
 
 </main>
 
 
-<!-- MODALE -->
-<div class="modal" id="modal">
-  <div class="box">
-    <button class="close" onclick="closeModal()">×</button>
-    <h2 id="modalTitle">Nuovo bando</h2>
+<!-- =====================================================
+     MODALE
+===================================================== -->
 
-    <!-- VISTA LETTURA -->
-    <div id="readView" class="read-view" style="display:none">
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="box">
+
+
+    <button
+      class="close"
+      onclick="closeModal()"
+      aria-label="Chiudi"
+    >
+      ×
+    </button>
+
+
+    <h2 id="modalTitle">
+      Nuovo bando
+    </h2>
+
+
+    <!-- =================================================
+         VISTA LETTURA
+    ================================================== -->
+
+    <div
+      id="readView"
+      class="read-view"
+      style="display:none"
+    >
+
       <div id="readContent"></div>
+
       <div class="mode-actions">
-        <button class="btn light" onclick="closeModal()">Chiudi</button>
-        <button class="btn" onclick="startEdit()">✎ Modifica scheda</button>
-        <button class="btn danger" id="readDeleteBtn" onclick="deleteBando()">Elimina</button>
+
+        <button
+          class="btn light"
+          onclick="closeModal()"
+        >
+          Chiudi
+        </button>
+
+        <button
+          class="btn"
+          onclick="startEdit()"
+        >
+          ✎ Modifica scheda
+        </button>
+
+        <button
+          class="btn danger"
+          id="readDeleteBtn"
+          onclick="deleteBando()"
+        >
+          Elimina
+        </button>
+
       </div>
+
     </div>
 
-    <!-- VISTA MODIFICA / NUOVO -->
-    <div id="editView" style="display:none">
+
+    <!-- =================================================
+         VISTA MODIFICA
+    ================================================== -->
+
+    <div
+      id="editView"
+      style="display:none"
+    >
+
       <div class="formgrid">
-        <div class="field">
-          <label>Nome del bando</label>
-          <input id="fNome">
-        </div>
+
+
+        <!-- NOME -->
 
         <div class="field">
-          <label>Ente</label>
-          <input id="fEnte">
+
+          <label>
+            Nome del bando
+          </label>
+
+          <input
+            id="fNome"
+          >
+
         </div>
 
+
+        <!-- ENTE -->
+
         <div class="field">
-          <label>Categoria</label>
-          <input id="fCat" list="categoryList">
+
+          <label>
+            Ente
+          </label>
+
+          <input
+            id="fEnte"
+            list="enteList"
+          >
+
+          <datalist id="enteList"></datalist>
+
+        </div>
+
+
+        <!-- CATEGORIA -->
+
+        <div class="field">
+
+          <label>
+            Categoria
+          </label>
+
+          <input
+            id="fCat"
+            list="categoryList"
+          >
+
           <datalist id="categoryList"></datalist>
+
         </div>
 
+
+        <!-- ATECO -->
+
         <div class="field">
-          <label>Stato</label>
+
+          <label>
+            Codici ATECO
+          </label>
+
+          <input
+            id="fAteco"
+            list="atecoList"
+            placeholder="Es. 62.01, 25.11, 10.71"
+          >
+
+          <datalist id="atecoList"></datalist>
+
+          <div class="help-text">
+            Puoi inserire più codici separati da virgola.
+          </div>
+
+        </div>
+
+
+        <!-- LUOGO -->
+
+        <div class="field">
+
+          <label>
+            Luogo / territorio
+          </label>
+
+          <input
+            id="fLuogo"
+            list="luogoList"
+            placeholder="Es. Italia, Lombardia, Milano"
+          >
+
+          <datalist id="luogoList"></datalist>
+
+        </div>
+
+
+        <!-- STATO -->
+
+        <div class="field">
+
+          <label>
+            Stato
+          </label>
+
           <select id="fStato">
-            <option>Attivi</option>
-            <option>In apertura</option>
-            <option>Chiusi</option>
-            <option>Da verificare</option>
+
+            <option>
+              Attivi
+            </option>
+
+            <option>
+              In apertura
+            </option>
+
+            <option>
+              Chiusi
+            </option>
+
+            <option>
+              Da verificare
+            </option>
+
           </select>
+
         </div>
 
+
+        <!-- APERTURA -->
+
         <div class="field">
-          <label>Modalità di apertura</label>
+
+          <label>
+            Modalità di apertura
+          </label>
+
           <select id="fApertura">
-            <option value="">Non specificato</option>
-            <option value="A sportello">A sportello</option>
-            <option value="A graduatoria">A graduatoria</option>
-            <option value="Click Day">Click Day</option>
+
+            <option value="">
+              Non specificato
+            </option>
+
+            <option value="A sportello">
+              A sportello
+            </option>
+
+            <option value="A graduatoria">
+              A graduatoria
+            </option>
+
+            <option value="Click Day">
+              Click Day
+            </option>
+
           </select>
+
         </div>
+
+
+        <!-- SCADENZA -->
 
         <div class="field">
-          <label>Scadenza</label>
-          <input id="fScad" type="date">
+
+          <label>
+            Scadenza
+          </label>
+
+          <input
+            id="fScad"
+            type="date"
+          >
+
         </div>
+
+
+        <!-- URL -->
 
         <div class="field full">
-          <label>Link al testo ufficiale</label>
-          <input id="fUrl" type="url" placeholder="https://…">
+
+          <label>
+            Link al testo ufficiale
+          </label>
+
+          <input
+            id="fUrl"
+            type="url"
+            placeholder="https://…"
+          >
+
         </div>
 
-        <div class="section-title">Scheda di sintesi</div>
 
-        <div class="field full">
-          <label>Breve descrizione</label>
-          <textarea id="fDescrizione"></textarea>
+        <!-- SEZIONE -->
+
+        <div class="section-title">
+          Scheda di sintesi
         </div>
 
-        <div class="field full">
-          <label>Soggetti beneficiari</label>
-          <textarea id="fBeneficiari"></textarea>
-        </div>
 
-        <div class="field full">
-          <label>Entità e forma agevolazione</label>
-          <textarea id="fAgevolazione"></textarea>
-        </div>
-
-        <div class="field full">
-          <label>Spese ammissibili</label>
-          <textarea id="fSpese"></textarea>
-        </div>
+        <!-- DESCRIZIONE -->
 
         <div class="field full">
-          <label>Note operative personali</label>
-          <textarea id="fNote"></textarea>
+
+          <label>
+            Breve descrizione
+          </label>
+
+          <textarea
+            id="fDescrizione"
+          ></textarea>
+
         </div>
+
+
+        <!-- BENEFICIARI -->
+
+        <div class="field full">
+
+          <label>
+            Soggetti beneficiari
+          </label>
+
+          <textarea
+            id="fBeneficiari"
+          ></textarea>
+
+        </div>
+
+
+        <!-- AGEVOLAZIONE -->
+
+        <div class="field full">
+
+          <label>
+            Entità e forma agevolazione
+          </label>
+
+          <textarea
+            id="fAgevolazione"
+          ></textarea>
+
+        </div>
+
+
+        <!-- SPESE -->
+
+        <div class="field full">
+
+          <label>
+            Spese ammissibili
+          </label>
+
+          <textarea
+            id="fSpese"
+          ></textarea>
+
+        </div>
+
+
+        <!-- NOTE -->
+
+        <div class="field full">
+
+          <label>
+            Note operative personali
+          </label>
+
+          <textarea
+            id="fNote"
+          ></textarea>
+
+        </div>
+
+
       </div>
+
 
       <div class="notice">
-        I dati vengono salvati nel <b>browser di questo dispositivo</b> tramite memoria locale.
+
+        I dati vengono salvati nel
+        <b>browser di questo dispositivo</b>
+        tramite memoria locale.
+
       </div>
 
+
       <div class="footer-actions">
-        <button class="btn light" onclick="cancelEdit()">Annulla</button>
-        <button class="btn" onclick="saveBando()">Salva</button>
-        <button class="btn danger" id="deleteBtn" style="display:none" onclick="deleteBando()">Elimina</button>
+
+        <button
+          class="btn light"
+          onclick="cancelEdit()"
+        >
+          Annulla
+        </button>
+
+        <button
+          class="btn"
+          onclick="saveBando()"
+        >
+          Salva
+        </button>
+
+        <button
+          class="btn danger"
+          id="deleteBtn"
+          style="display:none"
+          onclick="deleteBando()"
+        >
+          Elimina
+        </button>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
 
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script>
 
-/* =========================
+
+/* =========================================================
    DATI INIZIALI
-========================= */
+========================================================= */
 
 const initial = [
 
-{
-nome:"Nuova Sabatini",
-ente:"MIMIT",
-categoria:"Investimenti",
-stato:"Attivi",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Agevolazione per investimenti delle PMI in beni strumentali, hardware, software e tecnologie.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"Nuova Sabatini",
+    ente:"MIMIT",
+    categoria:"Investimenti",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Attivi",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Agevolazione per investimenti delle PMI in beni strumentali, hardware, software e tecnologie.",
+    beneficiari:"Micro, piccole e medie imprese (PMI) che effettuano investimenti ammissibili.",
+    agevolazione:"Contributo del MIMIT rapportato agli interessi su un finanziamento o leasing destinato all'investimento.",
+    spese:"Macchinari, impianti, beni strumentali, attrezzature, hardware, software e tecnologie digitali nuovi.",
+    note:"Verificare sempre beni, periodo di realizzazione, modalità di finanziamento e requisiti.",
+    preferito:false
+  },
 
-{
-nome:"Smart&Start Italia",
-ente:"Invitalia",
-categoria:"Startup",
-stato:"Attivi",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Incentivo dedicato alle startup innovative per sostenere piani di investimento e sviluppo.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"ON – Oltre Nuove imprese a tasso zero",
-ente:"Invitalia",
-categoria:"Nuove imprese",
-stato:"Attivi",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Agevolazione per la creazione e lo sviluppo di micro e piccole imprese a prevalente partecipazione giovanile o femminile.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"Smart&Start Italia",
+    ente:"Invitalia",
+    categoria:"Startup",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Attivi",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Incentivo dedicato alle startup innovative per sostenere piani di investimento e sviluppo.",
+    beneficiari:"Startup innovative e soggetti che intendono costituire una startup innovativa nei casi previsti.",
+    agevolazione:"Finanziamento agevolato per sostenere programmi di investimento e costi di avvio.",
+    spese:"Investimenti tecnologici, personale, servizi, costi di funzionamento e altre spese previste.",
+    note:"Verificare requisiti della startup innovativa e spese ammissibili dell'avviso vigente.",
+    preferito:false
+  },
 
-{
-nome:"ISI INAIL",
-ente:"INAIL",
-categoria:"Sicurezza",
-stato:"Da verificare",
-apertura:"A graduatoria",
-scadenza:"",
-url:"",
-descrizione:"Contributi per interventi finalizzati al miglioramento della salute e sicurezza nei luoghi di lavoro.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Brevetti+",
-ente:"MIMIT",
-categoria:"Proprietà intellettuale",
-stato:"Da verificare",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Misura a sostegno della valorizzazione economica dei brevetti.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"ON – Oltre Nuove imprese a tasso zero",
+    ente:"Invitalia",
+    categoria:"Nuove imprese",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Attivi",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Agevolazione per la creazione e lo sviluppo di micro e piccole imprese a prevalente partecipazione giovanile o femminile.",
+    beneficiari:"Micro e piccole imprese costituite da giovani o donne secondo i requisiti della misura.",
+    agevolazione:"Finanziamento agevolato a tasso zero, eventualmente combinato con una quota di contributo.",
+    spese:"Opere murarie, impianti, macchinari, attrezzature, software, servizi e altre spese.",
+    note:"Controllare composizione societaria, anzianità dell'impresa e limiti applicabili.",
+    preferito:false
+  },
 
-{
-nome:"Marchi+",
-ente:"MIMIT",
-categoria:"Proprietà intellettuale",
-stato:"Da verificare",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Contributi per la tutela e valorizzazione dei marchi all'estero.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Disegni+",
-ente:"MIMIT",
-categoria:"Proprietà intellettuale",
-stato:"Da verificare",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Contributi per valorizzare economicamente disegni e modelli.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"ISI INAIL",
+    ente:"INAIL",
+    categoria:"Sicurezza",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Da verificare",
+    apertura:"A graduatoria",
+    scadenza:"",
+    url:"",
+    descrizione:"Contributi per interventi finalizzati al miglioramento della salute e sicurezza nei luoghi di lavoro.",
+    beneficiari:"Imprese secondo i limiti e le condizioni previste dai bandi ISI INAIL.",
+    agevolazione:"Contributo in conto capitale per interventi finalizzati al miglioramento della salute e sicurezza.",
+    spese:"Macchinari, attrezzature, bonifica da materiali contenenti amianto e altri interventi ammessi.",
+    note:"Verificare annualità e calendario della procedura.",
+    preferito:false
+  },
 
-{
-nome:"Bandi SIMEST",
-ente:"SIMEST",
-categoria:"Internazionalizzazione",
-stato:"Attivi",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Strumenti agevolativi per investimenti e progetti di internazionalizzazione delle imprese.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Voucher Digitali",
-ente:"Camere di Commercio",
-categoria:"Digitalizzazione",
-stato:"Da verificare",
-apertura:"A graduatoria",
-scadenza:"",
-url:"",
-descrizione:"Voucher camerali per progetti di digitalizzazione e innovazione delle imprese.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"Brevetti+",
+    ente:"MIMIT",
+    categoria:"Proprietà intellettuale",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Da verificare",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Misura a sostegno della valorizzazione economica dei brevetti.",
+    beneficiari:"PMI titolari di un brevetto o di una domanda di brevetto nei casi previsti.",
+    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica del brevetto.",
+    spese:"Progettazione, ingegnerizzazione, organizzazione, trasferimento tecnologico, marketing e servizi specialistici.",
+    note:"",
+    preferito:false
+  },
 
-{
-nome:"Voucher Transizione Energetica",
-ente:"Vari enti",
-categoria:"Energia",
-stato:"Da verificare",
-apertura:"A graduatoria",
-scadenza:"",
-url:"",
-descrizione:"Misure a sostegno di interventi di efficientamento e transizione energetica.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Fiere",
-ente:"Vari enti",
-categoria:"Internazionalizzazione",
-stato:"Da verificare",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Contributi e voucher per la partecipazione a fiere ed eventi di promozione commerciale.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"Marchi+",
+    ente:"MIMIT",
+    categoria:"Proprietà intellettuale",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Da verificare",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Contributi per la tutela e valorizzazione dei marchi all'estero.",
+    beneficiari:"Micro, piccole e medie imprese titolari di marchi.",
+    agevolazione:"Contributo per tutela e valorizzazione dei marchi sui mercati esteri.",
+    spese:"Servizi specialistici connessi a registrazione, tutela e valorizzazione del marchio.",
+    note:"",
+    preferito:false
+  },
 
-{
-nome:"Formazione Continua",
-ente:"Regione Lombardia",
-categoria:"Formazione",
-stato:"Attivi",
-apertura:"A sportello",
-scadenza:"",
-url:"",
-descrizione:"Strumenti regionali per finanziare percorsi di formazione continua dei lavoratori.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Patent Box",
-ente:"Agenzia delle Entrate",
-categoria:"Fiscale",
-stato:"Attivi",
-apertura:"",
-scadenza:"",
-url:"",
-descrizione:"Regime agevolativo collegato alle attività di ricerca e sviluppo e alla valorizzazione di determinati beni immateriali.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
+  {
+    nome:"Disegni+",
+    ente:"MIMIT",
+    categoria:"Proprietà intellettuale",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Da verificare",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Contributi per valorizzare economicamente disegni e modelli.",
+    beneficiari:"PMI titolari di disegni o modelli registrati.",
+    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica.",
+    spese:"Servizi specialistici, progettazione, produzione, comunicazione e marketing.",
+    note:"",
+    preferito:false
+  },
 
-{
-nome:"Iperammortamento",
-ente:"MIMIT / Agenzia Entrate",
-categoria:"Investimenti",
-stato:"Attivi",
-apertura:"",
-scadenza:"",
-url:"",
-descrizione:"Misura fiscale collegata agli investimenti in beni e tecnologie rilevanti secondo la normativa vigente.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-},
 
-{
-nome:"Nuova Impresa – Regione Lombardia",
-ente:"Regione Lombardia",
-categoria:"Nuove imprese",
-stato:"Da verificare",
-apertura:"A graduatoria",
-scadenza:"",
-url:"",
-descrizione:"Misura regionale per sostenere la nascita e l'avvio di nuove imprese.",
-beneficiari:"",
-agevolazione:"",
-spese:"",
-note:"",
-preferito:false
-}
+  {
+    nome:"Bandi SIMEST",
+    ente:"SIMEST",
+    categoria:"Internazionalizzazione",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia / Estero",
+    stato:"Attivi",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Strumenti agevolativi per investimenti e progetti di internazionalizzazione delle imprese.",
+    beneficiari:"Imprese italiane con requisiti variabili in funzione dello specifico strumento.",
+    agevolazione:"Finanziamenti agevolati e, per alcune misure, contributi collegati al progetto.",
+    spese:"Apertura o potenziamento sui mercati esteri, fiere, consulenze, marketing e investimenti.",
+    note:"La voce comprende più strumenti: verificare lo specifico intervento.",
+    preferito:false
+  },
+
+
+  {
+    nome:"Voucher Digitali",
+    ente:"Camere di Commercio",
+    categoria:"Digitalizzazione",
+    ateco:"Vari ATECO",
+    luogo:"Territoriale",
+    stato:"Da verificare",
+    apertura:"A graduatoria",
+    scadenza:"",
+    url:"",
+    descrizione:"Voucher camerali per progetti di digitalizzazione e innovazione delle imprese.",
+    beneficiari:"Imprese, generalmente PMI, secondo i requisiti della Camera di Commercio.",
+    agevolazione:"Voucher o contributo per progetti di digitalizzazione.",
+    spese:"Software, hardware, consulenze, formazione e servizi digitali.",
+    note:"Verificare il singolo bando territoriale.",
+    preferito:false
+  },
+
+
+  {
+    nome:"Voucher Transizione Energetica",
+    ente:"Vari enti",
+    categoria:"Energia",
+    ateco:"Vari ATECO",
+    luogo:"Territoriale",
+    stato:"Da verificare",
+    apertura:"A graduatoria",
+    scadenza:"",
+    url:"",
+    descrizione:"Misure a sostegno di interventi di efficientamento e transizione energetica.",
+    beneficiari:"Imprese secondo i requisiti del singolo bando.",
+    agevolazione:"Contributo o voucher per interventi di efficientamento energetico.",
+    spese:"Diagnosi energetiche, consulenze, tecnologie efficienti, impianti e altri interventi.",
+    note:"Verificare il singolo avviso.",
+    preferito:false
+  },
+
+
+  {
+    nome:"Fiere",
+    ente:"Vari enti",
+    categoria:"Internazionalizzazione",
+    ateco:"Vari ATECO",
+    luogo:"Italia / Estero",
+    stato:"Da verificare",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Contributi e voucher per la partecipazione a fiere ed eventi di promozione commerciale.",
+    beneficiari:"Imprese, in particolare PMI, secondo i requisiti del bando.",
+    agevolazione:"Contributo o voucher per la partecipazione a fiere.",
+    spese:"Affitto area espositiva, allestimento, iscrizione, servizi fieristici e trasporto.",
+    note:"",
+    preferito:false
+  },
+
+
+  {
+    nome:"Formazione Continua",
+    ente:"Regione Lombardia",
+    categoria:"Formazione",
+    ateco:"Vari ATECO",
+    luogo:"Lombardia",
+    stato:"Attivi",
+    apertura:"A sportello",
+    scadenza:"",
+    url:"",
+    descrizione:"Strumenti regionali per finanziare percorsi di formazione continua dei lavoratori.",
+    beneficiari:"Imprese e lavoratori secondo le condizioni previste dagli strumenti regionali.",
+    agevolazione:"Contributo per la realizzazione di percorsi formativi.",
+    spese:"Costi di formazione, docenza, tutoraggio e altre voci ammesse.",
+    note:"",
+    preferito:false
+  },
+
+
+  {
+    nome:"Patent Box",
+    ente:"Agenzia delle Entrate",
+    categoria:"Fiscale",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Attivi",
+    apertura:"",
+    scadenza:"",
+    url:"",
+    descrizione:"Regime agevolativo collegato alle attività di ricerca e sviluppo e alla valorizzazione di determinati beni immateriali.",
+    beneficiari:"Imprese che possiedono i requisiti fiscali previsti.",
+    agevolazione:"Maggiorazione ai fini fiscali dei costi di ricerca e sviluppo relativi a determinati beni immateriali.",
+    spese:"Costi fiscalmente rilevanti di ricerca e sviluppo collegati ai beni agevolabili.",
+    note:"Non è un bando a sportello: verificare disciplina fiscale vigente.",
+    preferito:false
+  },
+
+
+  {
+    nome:"Iperammortamento",
+    ente:"MIMIT / Agenzia Entrate",
+    categoria:"Investimenti",
+    ateco:"Tutti i settori ammessi",
+    luogo:"Italia",
+    stato:"Attivi",
+    apertura:"",
+    scadenza:"",
+    url:"",
+    descrizione:"Misura fiscale collegata agli investimenti in beni e tecnologie rilevanti.",
+    beneficiari:"Imprese che effettuano investimenti agevolabili.",
+    agevolazione:"Maggiorazione del costo fiscalmente riconosciuto degli investimenti agevolabili.",
+    spese:"Beni strumentali e tecnologie individuati dalla normativa.",
+    note:"Verificare annualità, classificazione del bene, requisiti tecnici e interconnessione.",
+    preferito:false
+  },
+
+
+  {
+    nome:"Nuova Impresa – Regione Lombardia",
+    ente:"Regione Lombardia",
+    categoria:"Nuove imprese",
+    ateco:"Vari ATECO",
+    luogo:"Lombardia",
+    stato:"Da verificare",
+    apertura:"A graduatoria",
+    scadenza:"",
+    url:"",
+    descrizione:"Misura regionale per sostenere la nascita e l'avvio di nuove imprese.",
+    beneficiari:"Aspiranti imprenditori e nuove imprese lombarde secondo i requisiti dell'avviso.",
+    agevolazione:"Contributo a sostegno delle spese di avvio e investimento.",
+    spese:"Beni, servizi, consulenze, attrezzature, strumenti digitali e altre spese ammesse.",
+    note:"",
+    preferito:false
+  }
 
 ];
 
 
-/* =========================
-   COMPILAZIONE AUTOMATICA
-   =========================
-   Riempie solo i campi vuoti dei bandi iniziali.
-   I dati inseriti manualmente dall'utente non vengono sovrascritti.
-*/
+/* =========================================================
+   STORAGE
+========================================================= */
 
-const autoData = {
-  "Nuova Sabatini":{
-    beneficiari:"Micro, piccole e medie imprese (PMI) che effettuano investimenti ammissibili.",
-    agevolazione:"Contributo del MIMIT rapportato agli interessi su un finanziamento/leasing destinato all'investimento. Intensità e modalità dipendono dalla normativa e dalle risorse disponibili.",
-    spese:"Macchinari, impianti, beni strumentali, attrezzature, hardware, software e tecnologie digitali nuovi, secondo i requisiti della misura.",
-    note:"Verificare sempre beni, periodo di realizzazione, modalità di finanziamento e requisiti previsti dalla disciplina vigente."
-  },
-  "Smart&Start Italia":{
-    beneficiari:"Startup innovative costituite da poco tempo e persone fisiche che intendono costituire una startup innovativa, nei casi previsti.",
-    agevolazione:"Finanziamento agevolato per sostenere programmi di investimento e costi di avvio; condizioni e intensità variano in base ai requisiti del progetto.",
-    spese:"Investimenti tecnologici, personale, servizi, costi di funzionamento e altre spese previste dal programma ammissibile.",
-    note:"Verificare requisiti della startup innovativa, dimensione del progetto e spese ammissibili dell'avviso vigente."
-  },
-  "ON – Oltre Nuove imprese a tasso zero":{
-    beneficiari:"Micro e piccole imprese costituite da giovani o donne secondo i requisiti della misura; in determinati casi anche persone fisiche che intendono costituire una nuova impresa.",
-    agevolazione:"Finanziamento agevolato a tasso zero, eventualmente combinato con una quota di contributo secondo le condizioni previste dalla misura.",
-    spese:"Opere murarie, impianti, macchinari, attrezzature, software, servizi e altre spese di investimento previste dal programma.",
-    note:"Controllare composizione societaria, anzianità dell'impresa e percentuali/limiti applicabili all'ultimo avviso."
-  },
-  "ISI INAIL":{
-    beneficiari:"Imprese, nei limiti e secondo le condizioni previste dai bandi ISI INAIL delle singole annualità.",
-    agevolazione:"Contributo in conto capitale per interventi finalizzati al miglioramento della salute e sicurezza sul lavoro; percentuali e massimali sono definiti dall'avviso annuale.",
-    spese:"Macchinari, attrezzature, bonifica da materiali contenenti amianto e altri interventi ammessi dalle specifiche linee dell'avviso.",
-    note:"Misura normalmente caratterizzata da fasi telematiche e, per alcune linee, procedura Click Day. Verificare annualità e calendario."
-  },
-  "Brevetti+":{
-    beneficiari:"PMI titolari di un brevetto o di una domanda di brevetto che possiedano i requisiti previsti dalla misura.",
-    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica del brevetto; intensità e massimali dipendono dall'avviso vigente.",
-    spese:"Progettazione, ingegnerizzazione, organizzazione, trasferimento tecnologico, marketing e altri servizi specialistici ammissibili."
-  },
-  "Marchi+":{
-    beneficiari:"Micro, piccole e medie imprese titolari di marchi e in possesso dei requisiti previsti dall'avviso.",
-    agevolazione:"Contributo per la tutela e valorizzazione dei marchi sui mercati esteri, secondo percentuali e massimali dell'avviso.",
-    spese:"Servizi specialistici connessi a registrazione, tutela e valorizzazione del marchio nei mercati esteri."
-  },
-  "Disegni+":{
-    beneficiari:"PMI titolari di disegni o modelli registrati, secondo i requisiti dell'avviso.",
-    agevolazione:"Contributo per servizi specialistici finalizzati alla valorizzazione economica di disegni e modelli.",
-    spese:"Servizi specialistici, progettazione, produzione, comunicazione, marketing e altre attività ammissibili secondo l'avviso."
-  },
-  "Bandi SIMEST":{
-    beneficiari:"Imprese italiane, con requisiti variabili in funzione dello specifico strumento SIMEST.",
-    agevolazione:"Finanziamenti agevolati e, per alcune misure, contributi collegati al progetto di internazionalizzazione.",
-    spese:"Spese per apertura o potenziamento sui mercati esteri, fiere, consulenze, marketing, investimenti e altre categorie previste dal singolo strumento.",
-    note:"La voce comprende più strumenti: aprire la scheda dello specifico intervento e verificare requisiti e spese."
-  },
-  "Voucher Digitali":{
-    beneficiari:"Imprese, generalmente PMI, secondo i requisiti stabiliti dalla Camera di Commercio o dall'ente che pubblica il singolo bando.",
-    agevolazione:"Voucher/contributo per progetti di digitalizzazione; percentuale, massimale e modalità dipendono dal bando territoriale.",
-    spese:"Software, hardware, consulenze, formazione e servizi digitali ammessi dal singolo avviso."
-  },
-  "Voucher Transizione Energetica":{
-    beneficiari:"Imprese, secondo i requisiti del bando territoriale o dell'ente promotore.",
-    agevolazione:"Contributo o voucher per interventi di efficientamento energetico e transizione; intensità e massimali variano per bando.",
-    spese:"Diagnosi energetiche, consulenze, tecnologie efficienti, impianti e altri interventi ammessi dal singolo avviso."
-  },
-  "Fiere":{
-    beneficiari:"Imprese, in particolare PMI, secondo i requisiti del bando regionale, camerale o dell'ente promotore.",
-    agevolazione:"Contributo o voucher per la partecipazione a fiere ed eventi, con intensità e massimali stabiliti dal singolo bando.",
-    spese:"Affitto area espositiva, allestimento, iscrizione, servizi fieristici, trasporto e altre spese ammissibili."
-  },
-  "Formazione Continua":{
-    beneficiari:"Imprese e lavoratori secondo le condizioni previste dagli strumenti regionali di formazione continua.",
-    agevolazione:"Contributo per la realizzazione di percorsi formativi; modalità, massimali e intensità dipendono dall'avviso.",
-    spese:"Costi di formazione, docenza, tutoraggio e altre voci ammesse dal programma regionale."
-  },
-  "Patent Box":{
-    beneficiari:"Imprese che sostengono attività rilevanti di ricerca e sviluppo e possiedono i requisiti fiscali previsti dalla disciplina.",
-    agevolazione:"Maggiorazione ai fini fiscali dei costi di ricerca e sviluppo relativi a determinati beni immateriali, secondo la disciplina vigente.",
-    spese:"Costi fiscalmente rilevanti di ricerca e sviluppo collegati ai beni immateriali agevolabili, nei limiti e con le condizioni previste dalla normativa.",
-    note:"Non è un bando a sportello: verificare disciplina fiscale vigente, documentazione e condizioni di accesso."
-  },
-  "Iperammortamento":{
-    beneficiari:"Imprese che effettuano investimenti agevolabili secondo la normativa fiscale vigente.",
-    agevolazione:"Maggiorazione del costo fiscalmente riconosciuto degli investimenti agevolabili, con aliquote, limiti e condizioni stabiliti dalla disciplina vigente.",
-    spese:"Beni strumentali e tecnologie individuati dalla normativa, con eventuali requisiti tecnici e di interconnessione.",
-    note:"Verificare annualità dell'investimento, classificazione del bene, requisiti tecnici, interconnessione e documentazione necessaria."
-  },
-  "Nuova Impresa – Regione Lombardia":{
-    beneficiari:"Aspiranti imprenditori e nuove imprese lombarde, secondo i requisiti previsti dall'avviso regionale.",
-    agevolazione:"Contributo a sostegno delle spese di avvio e investimento, con intensità e massimali definiti dal bando.",
-    spese:"Acquisto di beni e servizi, consulenze, attrezzature, strumenti digitali e altre spese ammesse dall'avviso."
-  }
-};
+const KEY = 'portale_bandi_v4';
 
-function autoFillBandi(){
-  let changed = false;
-  bandi = bandi.map(x => {
-    const d = autoData[x.nome];
-    if(!d) return x;
-    const y = {...x};
-    Object.keys(d).forEach(k => {
-      if(!y[k]) { y[k] = d[k]; changed = true; }
-    });
-    return y;
-  });
-  if(changed) save();
-}
 
-/* =========================
-   STATO
-========================= */
+let bandi =
+  JSON.parse(
+    localStorage.getItem(KEY) || 'null'
+  )
+  ||
+  JSON.parse(
+    localStorage.getItem('portale_bandi_v3') || 'null'
+  )
+  ||
+  initial;
 
-const KEY = 'portale_bandi_v3';
-
-let bandi = JSON.parse(localStorage.getItem(KEY) || 'null') || initial;
 
 let filter = 'Tutti';
 
 let editIndex = null;
 
 
-/* =========================
+/* =========================================================
+   NORMALIZZAZIONE
+========================================================= */
+
+function normalizeBando(x){
+
+  return {
+
+    nome:x.nome || '',
+
+    ente:x.ente || '',
+
+    categoria:x.categoria || '',
+
+    ateco:x.ateco || '',
+
+    luogo:x.luogo || '',
+
+    stato:x.stato || 'Da verificare',
+
+    apertura:x.apertura || '',
+
+    scadenza:x.scadenza || '',
+
+    url:x.url || '',
+
+    descrizione:
+      x.descrizione ||
+      x.sintesi ||
+      '',
+
+    beneficiari:x.beneficiari || '',
+
+    agevolazione:x.agevolazione || '',
+
+    spese:x.spese || '',
+
+    note:x.note || '',
+
+    preferito:
+      x.preferito === true
+
+  };
+
+}
+
+
+bandi =
+  bandi.map(normalizeBando);
+
+
+localStorage.setItem(
+  KEY,
+  JSON.stringify(bandi)
+);
+
+
+/* =========================================================
    SALVATAGGIO
-========================= */
+========================================================= */
 
 function save(){
 
@@ -927,35 +2159,177 @@ function save(){
 }
 
 
-/* =========================
-   CATEGORIE
-========================= */
+/* =========================================================
+   VALORI UNICI
+========================================================= */
 
-function cats(){
+function uniqueValues(field){
 
-  return [
-    ...new Set(
-      bandi
-        .map(x => x.categoria)
-        .filter(Boolean)
-    )
-  ].sort();
+  const values = [];
+
+  bandi.forEach(x => {
+
+    const value = x[field];
+
+    if(!value) return;
+
+
+    String(value)
+      .split(',')
+      .map(v => v.trim())
+      .filter(Boolean)
+      .forEach(v => {
+
+        if(!values.includes(v)){
+          values.push(v);
+        }
+
+      });
+
+  });
+
+
+  return values.sort(
+    (a,b) =>
+      a.localeCompare(
+        b,
+        'it',
+        {numeric:true}
+      )
+  );
 
 }
 
 
-/* =========================
+/* =========================================================
+   POPOLA SELECT
+========================================================= */
+
+function populateSelect(
+  id,
+  field,
+  defaultLabel
+){
+
+  const select =
+    document.getElementById(id);
+
+  if(!select) return;
+
+  const current =
+    select.value;
+
+  const values =
+    uniqueValues(field);
+
+
+  select.innerHTML =
+    `<option value="">
+      ${esc(defaultLabel)}
+     </option>` +
+
+    values
+      .map(v =>
+        `<option value="${esc(v)}">
+          ${esc(v)}
+         </option>`
+      )
+      .join('');
+
+
+  if(values.includes(current)){
+    select.value = current;
+  }
+
+}
+
+
+/* =========================================================
+   DATALIST
+========================================================= */
+
+function populateDatalist(
+  id,
+  field
+){
+
+  const list =
+    document.getElementById(id);
+
+  if(!list) return;
+
+
+  const values =
+    uniqueValues(field);
+
+
+  list.innerHTML =
+    values
+      .map(v =>
+        `<option value="${esc(v)}"></option>`
+      )
+      .join('');
+
+}
+
+
+/* =========================================================
    SETUP
-========================= */
+========================================================= */
 
 function setup(){
 
-  const allCats = [...new Set([...cats(), 'Click Day'])].sort();
-  document.getElementById('cat').innerHTML =
-    '<option value="">Tutte le categorie</option>' +
-    allCats.map(x => `<option>${esc(x)}</option>`).join('');
-  document.getElementById('categoryList').innerHTML =
-    allCats.map(x => `<option value="${esc(x)}"></option>`).join('');
+  populateSelect(
+    'filterAteco',
+    'ateco',
+    'Tutti gli ATECO'
+  );
+
+
+  populateSelect(
+    'filterEnte',
+    'ente',
+    'Tutti gli enti'
+  );
+
+
+  populateSelect(
+    'filterLuogo',
+    'luogo',
+    'Tutti i luoghi'
+  );
+
+
+  populateSelect(
+    'cat',
+    'categoria',
+    'Tutte le categorie'
+  );
+
+
+  populateDatalist(
+    'atecoList',
+    'ateco'
+  );
+
+
+  populateDatalist(
+    'enteList',
+    'ente'
+  );
+
+
+  populateDatalist(
+    'luogoList',
+    'luogo'
+  );
+
+
+  populateDatalist(
+    'categoryList',
+    'categoria'
+  );
+
 
   renderTabs();
 
@@ -964,50 +2338,77 @@ function setup(){
 }
 
 
-/* =========================
+/* =========================================================
    TABS
-========================= */
+========================================================= */
 
 function renderTabs(){
 
   const states = [
+
     'Tutti',
+
     'Preferiti',
+
     'Attivi',
+
     'In apertura',
+
     'Chiusi',
+
     'Da verificare'
+
   ];
 
+
   document.getElementById('tabs').innerHTML =
+
     states.map(s => {
 
       let count;
 
+
       if(s === 'Tutti'){
-        count = bandi.length;
+
+        count =
+          bandi.length;
+
       }
 
       else if(s === 'Preferiti'){
-        count = bandi.filter(
-          x => x.preferito === true
-        ).length;
+
+        count =
+          bandi.filter(
+            x => x.preferito === true
+          ).length;
+
       }
 
       else{
-        count = bandi.filter(
-          x => x.stato === s
-        ).length;
+
+        count =
+          bandi.filter(
+            x => x.stato === s
+          ).length;
+
       }
 
+
       return `
+
         <button
           class="tab ${filter === s ? 'active' : ''}"
-          onclick="setFilter('${s}')"
+          onclick="setFilter('${escAttr(s)}')"
         >
-          ${s}
-          <span>(${count})</span>
+
+          ${esc(s)}
+
+          <span>
+            (${count})
+          </span>
+
         </button>
+
       `;
 
     }).join('');
@@ -1015,9 +2416,9 @@ function renderTabs(){
 }
 
 
-/* =========================
-   CAMBIO FILTRO
-========================= */
+/* =========================================================
+   CAMBIO FILTRO STATO
+========================================================= */
 
 function setFilter(s){
 
@@ -1030,9 +2431,34 @@ function setFilter(s){
 }
 
 
-/* =========================
-   RENDER
-========================= */
+/* =========================================================
+   RESET FILTRI
+========================================================= */
+
+function resetFilters(){
+
+  document.getElementById('search').value = '';
+
+  document.getElementById('filterAteco').value = '';
+
+  document.getElementById('filterEnte').value = '';
+
+  document.getElementById('filterLuogo').value = '';
+
+  document.getElementById('cat').value = '';
+
+  filter = 'Tutti';
+
+  renderTabs();
+
+  render();
+
+}
+
+
+/* =========================================================
+   RICERCA
+========================================================= */
 
 function render(){
 
@@ -1040,108 +2466,510 @@ function render(){
     document
       .getElementById('search')
       .value
-      .toLowerCase();
+      .toLowerCase()
+      .trim();
 
-  const c =
+
+  const categoria =
     document
       .getElementById('cat')
       .value;
 
 
-  const list = bandi
-    .map((x,i) => ({...x,i}))
-    .filter(x => {
+  const ateco =
+    document
+      .getElementById('filterAteco')
+      .value;
 
-      const statoOk =
-        filter === 'Tutti'
-        || (filter === 'Preferiti'
-            ? x.preferito === true
-            : x.stato === filter);
 
-      const categoriaOk =
-        !c || x.categoria === c;
+  const ente =
+    document
+      .getElementById('filterEnte')
+      .value;
 
-      const testo = `
-        ${x.nome}
-        ${x.ente}
-        ${x.categoria}
-        ${x.descrizione}
-        ${x.beneficiari}
-        ${x.agevolazione}
-        ${x.spese}
-        ${x.note}
-      `.toLowerCase();
 
-      return (
-        statoOk &&
-        categoriaOk &&
-        testo.includes(q)
-      );
+  const luogo =
+    document
+      .getElementById('filterLuogo')
+      .value;
 
-    });
 
+  const list =
+
+    bandi
+
+      .map(
+        (x,i) => ({
+          ...x,
+          i
+        })
+      )
+
+      .filter(x => {
+
+
+        /* STATO */
+
+        const statoOk =
+
+          filter === 'Tutti'
+
+          ||
+
+          (
+            filter === 'Preferiti'
+
+            ?
+
+            x.preferito === true
+
+            :
+
+            x.stato === filter
+          );
+
+
+        /* CATEGORIA */
+
+        const categoriaOk =
+
+          !categoria
+
+          ||
+
+          x.categoria === categoria;
+
+
+        /* ATECO */
+
+        const atecoOk =
+
+          !ateco
+
+          ||
+
+          String(x.ateco || '')
+            .split(',')
+            .map(v => v.trim())
+            .includes(ateco)
+
+          ||
+
+          String(x.ateco || '')
+            .toLowerCase()
+            .includes(
+              ateco.toLowerCase()
+            );
+
+
+        /* ENTE */
+
+        const enteOk =
+
+          !ente
+
+          ||
+
+          x.ente === ente;
+
+
+        /* LUOGO */
+
+        const luogoOk =
+
+          !luogo
+
+          ||
+
+          String(x.luogo || '')
+            .toLowerCase()
+            .includes(
+              luogo.toLowerCase()
+            );
+
+
+        /* RICERCA TESTUALE */
+
+        const testo = `
+
+          ${x.nome || ''}
+
+          ${x.ente || ''}
+
+          ${x.categoria || ''}
+
+          ${x.ateco || ''}
+
+          ${x.luogo || ''}
+
+          ${x.stato || ''}
+
+          ${x.apertura || ''}
+
+          ${x.descrizione || ''}
+
+          ${x.beneficiari || ''}
+
+          ${x.agevolazione || ''}
+
+          ${x.spese || ''}
+
+          ${x.note || ''}
+
+        `.toLowerCase();
+
+
+        const ricercaOk =
+          testo.includes(q);
+
+
+        return (
+
+          statoOk &&
+
+          categoriaOk &&
+
+          atecoOk &&
+
+          enteOk &&
+
+          luogoOk &&
+
+          ricercaOk
+
+        );
+
+      });
+
+
+  /* CARDS */
 
   document.getElementById('grid').innerHTML =
-    list.map(card).join('');
 
-  document.getElementById('empty').style.display =
-    list.length ? 'none' : 'block';
+    list
+      .map(card)
+      .join('');
+
+
+  /* EMPTY */
+
+  document.getElementById('empty')
+    .style.display =
+      list.length
+        ? 'none'
+        : 'block';
+
+
+  /* COUNT */
+
+  const label =
+    list.length === 1
+      ? 'bando'
+      : 'bandi';
+
+
+  document.getElementById('resultsCount')
+    .textContent =
+      `${list.length} ${label} visualizzati`;
+
+
+  document.getElementById('filterCount')
+    .textContent =
+      `${list.length} risultati`;
 
 }
 
 
-/* =========================
+/* =========================================================
    CARD
-========================= */
+========================================================= */
 
 function card(x){
+
   const d = x.scadenza
-    ? new Date(x.scadenza + 'T00:00:00').toLocaleDateString('it-IT')
-    : 'Non indicata';
+
+    ?
+
+      new Date(
+        x.scadenza +
+        'T00:00:00'
+      )
+      .toLocaleDateString(
+        'it-IT'
+      )
+
+    :
+
+      'Non indicata';
+
 
   return `
+
     <article class="card">
-      <button class="star ${x.preferito ? 'active' : ''}"
-        onclick="togglePreferito(${x.i})"
-        title="${x.preferito ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}">
-        ${x.preferito ? '★' : '☆'}
+
+
+      <!-- PREFERITO -->
+
+      <button
+
+        class="star ${
+          x.preferito
+            ? 'active'
+            : ''
+        }"
+
+        onclick="
+          togglePreferito(${x.i})
+        "
+
+        title="${
+          x.preferito
+            ? 'Rimuovi dai preferiti'
+            : 'Aggiungi ai preferiti'
+        }"
+
+      >
+
+        ${
+          x.preferito
+            ? '★'
+            : '☆'
+        }
+
       </button>
 
-      <span class="pill">${esc(x.categoria || 'Altro')}</span>
-      <span class="pill status">${esc(x.stato || 'Da verificare')}</span>
 
-      <h3>${esc(x.nome)}</h3>
-      <div class="entity">${esc(x.ente || 'Ente non indicato')}</div>
+      <!-- BADGE -->
 
-      ${x.apertura ? `<div class="opening">${esc(x.apertura)}</div>` : ''}
+      <span class="pill">
+
+        ${esc(
+          x.categoria ||
+          'Altro'
+        )}
+
+      </span>
+
+
+      <span class="pill status">
+
+        ${esc(
+          x.stato ||
+          'Da verificare'
+        )}
+
+      </span>
+
+
+      <!-- NOME -->
+
+      <h3>
+
+        ${esc(x.nome)}
+
+      </h3>
+
+
+      <!-- ENTE -->
+
+      <div class="entity">
+
+        ${esc(
+          x.ente ||
+          'Ente non indicato'
+        )}
+
+      </div>
+
+
+      <!-- META -->
+
+      <div class="badges">
+
+
+        ${
+          x.ateco
+
+          ?
+
+          `
+
+          <span class="meta-badge">
+
+            ATECO:
+            ${esc(x.ateco)}
+
+          </span>
+
+          `
+
+          :
+
+          ''
+
+        }
+
+
+        ${
+          x.luogo
+
+          ?
+
+          `
+
+          <span class="meta-badge">
+
+            📍
+            ${esc(x.luogo)}
+
+          </span>
+
+          `
+
+          :
+
+          ''
+
+        }
+
+
+        ${
+          x.apertura
+
+          ?
+
+          `
+
+          <span class="meta-badge">
+
+            ${esc(x.apertura)}
+
+          </span>
+
+          `
+
+          :
+
+          ''
+
+        }
+
+
+      </div>
+
+
+      <!-- DESCRIZIONE -->
 
       <div class="desc">
-        ${esc(x.descrizione || 'Nessuna descrizione inserita.')}
+
+        ${esc(
+          x.descrizione ||
+          'Nessuna descrizione inserita.'
+        )}
+
       </div>
 
-      <div class="date">Scadenza: <b>${d}</b></div>
+
+      <!-- DATA -->
+
+      <div class="date">
+
+        Scadenza:
+
+        <b>
+          ${d}
+        </b>
+
+      </div>
+
+
+      <!-- AZIONI -->
 
       <div class="actions">
-        <button class="btn" onclick="editBando(${x.i})">Apri scheda</button>
+
+
+        <button
+
+          class="btn"
+
+          onclick="
+            editBando(${x.i})
+          "
+
+        >
+
+          Apri scheda
+
+        </button>
+
+
         ${
           x.url
-          ? `<a class="btn light" href="${safeUrl(x.url)}" target="_blank" rel="noopener">Testo ufficiale ↗</a>`
-          : `<button class="btn light" onclick="editBando(${x.i})">＋ Inserisci fonte</button>`
+
+          ?
+
+          `
+
+          <a
+
+            class="btn light"
+
+            href="${safeUrl(x.url)}"
+
+            target="_blank"
+
+            rel="noopener"
+
+          >
+
+            Testo ufficiale ↗
+
+          </a>
+
+          `
+
+          :
+
+          `
+
+          <button
+
+            class="btn light"
+
+            onclick="
+              editBando(${x.i})
+            "
+
+          >
+
+            ＋ Inserisci fonte
+
+          </button>
+
+          `
+
         }
+
+
       </div>
+
+
     </article>
+
   `;
+
 }
 
 
-/* =========================
+/* =========================================================
    PREFERITI
-========================= */
+========================================================= */
 
 function togglePreferito(i){
 
   bandi[i].preferito =
     !bandi[i].preferito;
+
 
   save();
 
@@ -1152,113 +2980,508 @@ function togglePreferito(i){
 }
 
 
-/* =========================
+/* =========================================================
    NUOVO BANDO
-========================= */
+========================================================= */
 
 function newBando(){
+
   editIndex = null;
+
+
   fill({
-    nome:'', ente:'', categoria:'', stato:'Attivi', apertura:'',
-    scadenza:'', url:'', descrizione:'', beneficiari:'',
-    agevolazione:'', spese:'', note:'', preferito:false
+
+    nome:'',
+
+    ente:'',
+
+    categoria:'',
+
+    ateco:'',
+
+    luogo:'',
+
+    stato:'Attivi',
+
+    apertura:'',
+
+    scadenza:'',
+
+    url:'',
+
+    descrizione:'',
+
+    beneficiari:'',
+
+    agevolazione:'',
+
+    spese:'',
+
+    note:'',
+
+    preferito:false
+
   });
-  document.getElementById('modalTitle').textContent = 'Nuovo bando';
-  document.getElementById('deleteBtn').style.display = 'none';
+
+
+  document.getElementById(
+    'modalTitle'
+  )
+  .textContent =
+    'Nuovo bando';
+
+
+  document.getElementById(
+    'deleteBtn'
+  )
+  .style.display =
+    'none';
+
+
   showEditView();
+
   openModal();
+
 }
 
-/* =========================
-   SCHEDA DI LETTURA
-========================= */
+
+/* =========================================================
+   APRI SCHEDA
+========================================================= */
 
 function editBando(i){
+
   editIndex = i;
-  fill(bandi[i]);
-  document.getElementById('modalTitle').textContent = bandi[i].nome || 'Scheda bando';
-  renderReadView(bandi[i]);
+
+
+  fill(
+    bandi[i]
+  );
+
+
+  document.getElementById(
+    'modalTitle'
+  )
+  .textContent =
+    bandi[i].nome ||
+    'Scheda bando';
+
+
+  renderReadView(
+    bandi[i]
+  );
+
+
   showReadView();
+
   openModal();
+
 }
+
+
+/* =========================================================
+   VISTA LETTURA
+========================================================= */
 
 function renderReadView(x){
+
   const d = x.scadenza
-    ? new Date(x.scadenza + 'T00:00:00').toLocaleDateString('it-IT')
-    : 'Non indicata';
 
-  const item = (label, value, full=false, raw=false) => `
-    <div class="read-item ${full ? 'full' : ''}">
-      <span class="read-label">${label}</span>
-      <div class="read-value ${value ? '' : 'read-empty'}">${raw ? (value || 'Non compilato') : esc(value || 'Non compilato')}</div>
-    </div>`;
+    ?
 
-  document.getElementById('readContent').innerHTML = `
+      new Date(
+        x.scadenza +
+        'T00:00:00'
+      )
+      .toLocaleDateString(
+        'it-IT'
+      )
+
+    :
+
+      'Non indicata';
+
+
+  const item = (
+    label,
+    value,
+    full=false,
+    raw=false
+  ) => `
+
+    <div
+      class="
+        read-item
+        ${full ? 'full' : ''}
+      "
+    >
+
+      <span class="read-label">
+
+        ${esc(label)}
+
+      </span>
+
+
+      <div
+        class="
+          read-value
+          ${
+            value
+              ? ''
+              : 'read-empty'
+          }
+        "
+      >
+
+        ${
+          raw
+
+          ?
+
+          (
+            value ||
+            'Non compilato'
+          )
+
+          :
+
+          esc(
+            value ||
+            'Non compilato'
+          )
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    'readContent'
+  ).innerHTML = `
+
     <div class="read-grid">
-      ${item('Ente', x.ente)}
-      ${item('Categoria', x.categoria)}
-      ${item('Stato', x.stato)}
-      ${item('Modalità di apertura', x.apertura)}
-      ${item('Scadenza', d)}
-      ${item('Breve descrizione', x.descrizione, true)}
-      ${item('Soggetti beneficiari', x.beneficiari, true)}
-      ${item('Entità e forma agevolazione', x.agevolazione, true)}
-      ${item('Spese ammissibili', x.spese, true)}
-      ${item('Note operative', x.note, true)}
-      ${item('Testo ufficiale', x.url ? `<a href="${safeUrl(x.url)}" target="_blank" rel="noopener">${esc(x.url)}</a>` : '', true, true)}
-    </div>`;
+
+
+      ${item(
+        'Ente',
+        x.ente
+      )}
+
+
+      ${item(
+        'Categoria',
+        x.categoria
+      )}
+
+
+      ${item(
+        'ATECO',
+        x.ateco
+      )}
+
+
+      ${item(
+        'Luogo / territorio',
+        x.luogo
+      )}
+
+
+      ${item(
+        'Stato',
+        x.stato
+      )}
+
+
+      ${item(
+        'Modalità di apertura',
+        x.apertura
+      )}
+
+
+      ${item(
+        'Scadenza',
+        d
+      )}
+
+
+      ${item(
+        'Breve descrizione',
+        x.descrizione,
+        true
+      )}
+
+
+      ${item(
+        'Soggetti beneficiari',
+        x.beneficiari,
+        true
+      )}
+
+
+      ${item(
+        'Entità e forma agevolazione',
+        x.agevolazione,
+        true
+      )}
+
+
+      ${item(
+        'Spese ammissibili',
+        x.spese,
+        true
+      )}
+
+
+      ${item(
+        'Note operative',
+        x.note,
+        true
+      )}
+
+
+      ${item(
+
+        'Testo ufficiale',
+
+        x.url
+
+          ?
+
+          `<a
+             href="${safeUrl(x.url)}"
+             target="_blank"
+             rel="noopener"
+           >
+             ${esc(x.url)}
+           </a>`
+
+          :
+
+          '',
+
+        true,
+
+        true
+
+      )}
+
+
+    </div>
+
+  `;
+
 }
+
+
+/* =========================================================
+   VISTA LETTURA / MODIFICA
+========================================================= */
 
 function showReadView(){
-  document.getElementById('readView').style.display = 'block';
-  document.getElementById('editView').style.display = 'none';
-  document.getElementById('readDeleteBtn').style.display = editIndex !== null ? 'inline-flex' : 'none';
+
+  document.getElementById(
+    'readView'
+  ).style.display =
+    'block';
+
+
+  document.getElementById(
+    'editView'
+  ).style.display =
+    'none';
+
+
+  document.getElementById(
+    'readDeleteBtn'
+  ).style.display =
+    editIndex !== null
+      ? 'inline-flex'
+      : 'none';
+
 }
+
 
 function showEditView(){
-  document.getElementById('readView').style.display = 'none';
-  document.getElementById('editView').style.display = 'block';
+
+  document.getElementById(
+    'readView'
+  ).style.display =
+    'none';
+
+
+  document.getElementById(
+    'editView'
+  ).style.display =
+    'block';
+
 }
+
+
+/* =========================================================
+   MODIFICA
+========================================================= */
 
 function startEdit(){
-  if(editIndex === null) return;
-  document.getElementById('modalTitle').textContent = 'Modifica scheda';
-  document.getElementById('deleteBtn').style.display = 'inline-flex';
+
+  if(editIndex === null)
+    return;
+
+
+  document.getElementById(
+    'modalTitle'
+  )
+  .textContent =
+    'Modifica scheda';
+
+
+  document.getElementById(
+    'deleteBtn'
+  )
+  .style.display =
+    'inline-flex';
+
+
   showEditView();
+
 }
+
+
+/* =========================================================
+   ANNULLA MODIFICA
+========================================================= */
 
 function cancelEdit(){
+
   if(editIndex !== null){
-    renderReadView(bandi[editIndex]);
-    document.getElementById('modalTitle').textContent = bandi[editIndex].nome || 'Scheda bando';
+
+    renderReadView(
+      bandi[editIndex]
+    );
+
+
+    document.getElementById(
+      'modalTitle'
+    )
+    .textContent =
+      bandi[editIndex].nome ||
+      'Scheda bando';
+
+
     showReadView();
-  } else {
-    closeModal();
+
   }
+
+  else{
+
+    closeModal();
+
+  }
+
 }
 
-/* =========================
+
+/* =========================================================
    RIEMPI FORM
-========================= */
+========================================================= */
 
 function fill(x){
-  document.getElementById('fNome').value = x.nome || '';
-  document.getElementById('fEnte').value = x.ente || '';
-  document.getElementById('fCat').value = x.categoria || '';
-  document.getElementById('fStato').value = x.stato || 'Attivi';
-  document.getElementById('fApertura').value = x.apertura || '';
-  document.getElementById('fScad').value = x.scadenza || '';
-  document.getElementById('fUrl').value = x.url || '';
-  document.getElementById('fDescrizione').value = x.descrizione || x.sintesi || '';
-  document.getElementById('fBeneficiari').value = x.beneficiari || '';
-  document.getElementById('fAgevolazione').value = x.agevolazione || '';
-  document.getElementById('fSpese').value = x.spese || '';
-  document.getElementById('fNote').value = x.note || '';
+
+  document.getElementById(
+    'fNome'
+  ).value =
+    x.nome || '';
+
+
+  document.getElementById(
+    'fEnte'
+  ).value =
+    x.ente || '';
+
+
+  document.getElementById(
+    'fCat'
+  ).value =
+    x.categoria || '';
+
+
+  document.getElementById(
+    'fAteco'
+  ).value =
+    x.ateco || '';
+
+
+  document.getElementById(
+    'fLuogo'
+  ).value =
+    x.luogo || '';
+
+
+  document.getElementById(
+    'fStato'
+  ).value =
+    x.stato ||
+    'Attivi';
+
+
+  document.getElementById(
+    'fApertura'
+  ).value =
+    x.apertura || '';
+
+
+  document.getElementById(
+    'fScad'
+  ).value =
+    x.scadenza || '';
+
+
+  document.getElementById(
+    'fUrl'
+  ).value =
+    x.url || '';
+
+
+  document.getElementById(
+    'fDescrizione'
+  ).value =
+    x.descrizione ||
+    x.sintesi ||
+    '';
+
+
+  document.getElementById(
+    'fBeneficiari'
+  ).value =
+    x.beneficiari || '';
+
+
+  document.getElementById(
+    'fAgevolazione'
+  ).value =
+    x.agevolazione || '';
+
+
+  document.getElementById(
+    'fSpese'
+  ).value =
+    x.spese || '';
+
+
+  document.getElementById(
+    'fNote'
+  ).value =
+    x.note || '';
+
 }
 
-/* =========================
+
+/* =========================================================
    VALUE HELPER
-========================= */
+========================================================= */
 
 function f(id){
 
@@ -1270,13 +3493,80 @@ function f(id){
 }
 
 
-/* =========================
+/* =========================================================
+   LETTURA FORM
+========================================================= */
+
+function read(){
+
+  return {
+
+    nome:
+      f('fNome'),
+
+    ente:
+      f('fEnte'),
+
+    categoria:
+      f('fCat'),
+
+    ateco:
+      f('fAteco'),
+
+    luogo:
+      f('fLuogo'),
+
+    stato:
+      document
+        .getElementById('fStato')
+        .value,
+
+    apertura:
+      document
+        .getElementById('fApertura')
+        .value,
+
+    scadenza:
+      document
+        .getElementById('fScad')
+        .value,
+
+    url:
+      f('fUrl'),
+
+    descrizione:
+      f('fDescrizione'),
+
+    beneficiari:
+      f('fBeneficiari'),
+
+    agevolazione:
+      f('fAgevolazione'),
+
+    spese:
+      f('fSpese'),
+
+    note:
+      f('fNote'),
+
+    preferito:
+      editIndex !== null
+        ? bandi[editIndex].preferito
+        : false
+
+  };
+
+}
+
+
+/* =========================================================
    SALVA BANDO
-========================= */
+========================================================= */
 
 function saveBando(){
 
-  const x = read();
+  const x =
+    read();
 
 
   if(!x.nome){
@@ -1298,7 +3588,8 @@ function saveBando(){
 
   else{
 
-    bandi[editIndex] = x;
+    bandi[editIndex] =
+      x;
 
   }
 
@@ -1312,21 +3603,29 @@ function saveBando(){
 }
 
 
-/* =========================
+/* =========================================================
    ELIMINA
-========================= */
+========================================================= */
 
 function deleteBando(){
 
   if(
-    editIndex !== null &&
-    confirm('Eliminare questa scheda?')
+
+    editIndex !== null
+
+    &&
+
+    confirm(
+      'Eliminare questa scheda?'
+    )
+
   ){
 
     bandi.splice(
       editIndex,
       1
     );
+
 
     save();
 
@@ -1339,9 +3638,9 @@ function deleteBando(){
 }
 
 
-/* =========================
+/* =========================================================
    MODAL
-========================= */
+========================================================= */
 
 function openModal(){
 
@@ -1363,9 +3662,54 @@ function closeModal(){
 }
 
 
-/* =========================
+/* =========================================================
+   CHIUDI CLICCANDO FUORI
+========================================================= */
+
+document
+  .getElementById('modal')
+  .addEventListener(
+    'click',
+    function(e){
+
+      if(e.target === this){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   ESC PER CHIUDERE
+========================================================= */
+
+document.addEventListener(
+  'keydown',
+  function(e){
+
+    if(
+      e.key === 'Escape'
+      &&
+      document
+        .getElementById('modal')
+        .classList
+        .contains('show')
+    ){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    SICUREZZA TESTO
-========================= */
+========================================================= */
 
 function esc(s){
 
@@ -1373,33 +3717,67 @@ function esc(s){
     .replace(
       /[&<>"']/g,
       m => ({
+
         '&':'&amp;',
+
         '<':'&lt;',
+
         '>':'&gt;',
+
         '"':'&quot;',
+
         "'":'&#39;'
+
       }[m])
     );
 
 }
 
 
-/* =========================
+/* =========================================================
+   SICUREZZA ATTRIBUTI
+========================================================= */
+
+function escAttr(s){
+
+  return String(s ?? '')
+    .replace(
+      /['"]/g,
+      ''
+    );
+
+}
+
+
+/* =========================================================
    SICUREZZA URL
-========================= */
+========================================================= */
 
 function safeUrl(u){
 
   try{
 
-    const x = new URL(u);
+    const x =
+      new URL(u);
+
 
     return [
+
       'http:',
+
       'https:'
-    ].includes(x.protocol)
-      ? x.href
-      : '#';
+
+    ].includes(
+      x.protocol
+    )
+
+      ?
+
+      x.href
+
+      :
+
+      '#';
 
   }
 
@@ -1412,13 +3790,16 @@ function safeUrl(u){
 }
 
 
-/* =========================
+/* =========================================================
    AVVIO
-========================= */
+========================================================= */
 
 setup();
+
 
 </script>
 
 </body>
+
 </html>
+
